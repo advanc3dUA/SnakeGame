@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 struct Snake {
-    var head = UIImageView()
-    var body: [UIImageView] = []
+    var body: [UIView] = []
+    let pieceWidth: CGFloat = 10
+    let pieceHeight: CGFloat = 10
 }
