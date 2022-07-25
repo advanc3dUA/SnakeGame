@@ -13,6 +13,7 @@
 		BF245684288D399E008B2027 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF245682288D399E008B2027 /* Main.storyboard */; };
 		BF245686288D399E008B2027 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF245685288D399E008B2027 /* Assets.xcassets */; };
 		BF245689288D399E008B2027 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF245687288D399E008B2027 /* LaunchScreen.storyboard */; };
+		BF245692288D5BA9008B2027 /* Snake.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF245691288D5BA9008B2027 /* Snake.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		BF245685288D399E008B2027 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF245688288D399E008B2027 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF24568A288D399E008B2027 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF245691288D5BA9008B2027 /* Snake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snake.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				BF24567C288D399E008B2027 /* AppDelegate.swift */,
 				BF24567E288D399E008B2027 /* SceneDelegate.swift */,
 				BF245680288D399E008B2027 /* ViewController.swift */,
+				BF245691288D5BA9008B2027 /* Snake.swift */,
 				BF245682288D399E008B2027 /* Main.storyboard */,
 				BF245685288D399E008B2027 /* Assets.xcassets */,
 				BF245687288D399E008B2027 /* LaunchScreen.storyboard */,
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF245692288D5BA9008B2027 /* Snake.swift in Sources */,
 				BF245681288D399E008B2027 /* ViewController.swift in Sources */,
 				BF24567D288D399E008B2027 /* AppDelegate.swift in Sources */,
 				BF24567F288D399E008B2027 /* SceneDelegate.swift in Sources */,
