@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct Snake {
-    var body: [UIView] = []
+    var body: [UIDynamicItem] = []
     let pieceWidth: CGFloat = 10
     let pieceHeight: CGFloat = 10
 }

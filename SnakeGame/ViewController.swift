@@ -17,55 +17,53 @@ class ViewController: UIViewController {
     var snake = Snake()
     
     // snake step
-    let dX: CGFloat = 10
-    let dY: CGFloat = 10
+//    let dX: CGFloat = 10
+//    let dY: CGFloat = 10
     
     var pieceOfSnake = UIView()
     
     var timer = Timer()
     
-    var animator = UIDynamicAnimator()
+    var animator: UIDynamicAnimator!
+    var collision: UICollisionBehavior!
     
     //MARK:- Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         createField()
         createSnake()
-        moveTheSnake(nil)
         createNewPieceOfSnake()
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupCollisions()
+        setupTimerForMoving(nil)
+        
     }
     
     //MARK:- move buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
         timer.invalidate()
-        moveTheSnake(sender)
+        setupTimerForMoving(sender)
     }
 
     @IBAction func moveLeftButton(_ sender: UIButton) {
         timer.invalidate()
-        moveTheSnake(sender)
+        setupTimerForMoving(sender)
     }
     
     @IBAction func moveUpButton(_ sender: UIButton) {
         timer.invalidate()
-        moveTheSnake(sender)
+        setupTimerForMoving(sender)
     }
     
     @IBAction func moveDownButton(_ sender: UIButton) {
         timer.invalidate()
-        moveTheSnake(sender)
+        setupTimerForMoving(sender)
     }
     
     //MARK:- field methods
@@ -81,23 +79,32 @@ class ViewController: UIViewController {
         snakeHead.backgroundColor = .black
         fieldImageView.addSubview(snakeHead)
         snake.body.append(snakeHead)
+        setupCollisions()
         
     }
     //MARK: похоже надо возвращать текующее направление движения, а потом в кнопках проверять доступность поворота
-    private func moveTheSnake(_ sender: UIButton?) {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {(Timer) in
-            let currentX = self.snake.body[0].frame.origin.x
-            let currentY = self.snake.body[0].frame.origin.y
+    private func setupTimerForMoving(_ sender: UIButton?) {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: {(Timer) in
+            var dX = 0
+            var dY = 0
             
             switch sender?.tag {
-            case 0: self.snake.body[0].frame = CGRect(x: currentX - self.dX, y: currentY, width: 10, height: 10)
-            case 1: self.snake.body[0].frame = CGRect(x: currentX + self.dX, y: currentY, width: 10, height: 10)
-            case 2: self.snake.body[0].frame = CGRect(x: currentX, y: currentY - self.dY, width: 10, height: 10)
-            case 3: self.snake.body[0].frame = CGRect(x: currentX, y: currentY + self.dY, width: 10, height: 10)
-            case nil: self.snake.body[0].frame = CGRect(x: currentX + self.dX, y: currentY, width: 10, height: 10)
-            default: return
+                case 0: dX -= 10
+                case 1: dX += 10
+                case 2: dY -= 10
+                case 3: dY += 10
+                case nil: dX += 10
+                default: return
             }
+            
+            self.moveSnake(dX, dY)
         })
+    }
+    private func moveSnake(_ dX: Int, _ dY: Int) {
+        UIView.animate(withDuration: 0.15) {
+            self.snake.body[0].center.x += CGFloat(dX)
+            self.snake.body[0].center.y += CGFloat(dY)
+        }
     }
     
     //MARK:- new piece of snake methods
@@ -116,13 +123,17 @@ class ViewController: UIViewController {
     
     //MARK:- dynamic animator
     private func setupCollisions() {
-        animator = UIDynamicAnimator(referenceView: fieldImageView)        
-        let collision = UICollisionBehavior(items: [snake.body[0]])
+        animator = UIDynamicAnimator(referenceView: fieldImageView)
+//        let gravity = UIGravityBehavior(items: snake.body)
+//        animator.addBehavior(gravity)
+        collision = UICollisionBehavior(items: snake.body)
         collision.translatesReferenceBoundsIntoBoundary = true
         animator.addBehavior(collision)
         collision.addBoundary(withIdentifier: "bottomBoundary" as NSCopying,
                               from: CGPoint(x: 0, y: fieldImageView.bounds.height),
                               to: CGPoint(x: fieldImageView.bounds.width, y: fieldImageView.bounds.height))
+
+
         collision.collisionDelegate = self
     }
 }
@@ -135,7 +146,7 @@ extension ViewController: UICollisionBehaviorDelegate {
         let bottomBoundary = "bottomBoundary"
         if identifier == bottomBoundary {
             print("got it")
-            snake.body[0].backgroundColor = .red
+         //  snake.body[0].backgroundColor = .red
         }
     }
 }
