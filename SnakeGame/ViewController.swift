@@ -83,14 +83,14 @@ class ViewController: UIViewController {
     
     //MARK:- new piece creating
     private func createNewPieceOfSnake() {
-        let newPiece = snake.createNewPieceOfSnake()
+        newPiece = newPiece.createNewPieceOfSnake()
         newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: newPiece.width, height: newPiece.height)
         newPieceView.backgroundColor = .black
         fieldImageView.addSubview(newPieceView)
     }
     //MARK: похоже надо возвращать текующее направление движения, а потом в кнопках проверять доступность поворота
     private func setupTimerForMoving(_ sender: UIButton?) {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: {(Timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: {(Timer) in
             var dX = 0
             var dY = 0
             
@@ -104,12 +104,46 @@ class ViewController: UIViewController {
             }
             
             self.moveSnake(dX, dY)
+            
+            if snake.pickUpNewPiece(newPiece) {
+                self.pickupNewPiece(self.newPieceView)
+                //self.createNewPieceOfSnake()
+            }
+            
         })
     }
+    
+    private func pickupNewPiece(_ newPieceView: UIView) {
+        UIView.animate(withDuration: 1) {
+            newPieceView.backgroundColor = .red
+            newPieceView.alpha = 0.0
+            self.snakeView.append(UIView(frame: CGRect(x: newPieceView.center.x - CGFloat(newPiece.width / 2),
+                                                       y: newPieceView.center.y - CGFloat(newPiece.height / 2),
+                                                       width: CGFloat(newPiece.width),
+                                                       height: CGFloat(newPiece.height))))
+            self.snakeView.last?.backgroundColor = .yellow
+            
+            self.fieldImageView.addSubview(self.snakeView.last!)
+        } completion: { (_) in
+            newPieceView.removeFromSuperview()
+            print(newPieceView)
+            self.createNewPieceOfSnake()
+            print(newPieceView)
+            newPieceView.alpha = 1.0
+        }
+
+    }
+    
     private func moveSnake(_ dX: Int, _ dY: Int) {
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.15) {
             snake.body[0].x += dX
             snake.body[0].y += dY
+            
+            for index in 1..<snake.body.count {
+                snake.body[index].x = snake.body[index - 1].x
+                snake.body[index].y = snake.body[index - 1].y
+                self.snakeView[index].center = self.snakeView[index - 1].center
+            }
              
             self.snakeView[0].center.x += CGFloat(dX)
             self.snakeView[0].center.y += CGFloat(dY)
