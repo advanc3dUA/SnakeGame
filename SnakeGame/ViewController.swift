@@ -11,21 +11,12 @@ class ViewController: UIViewController {
 
     //MARK:- Variables
     var fieldImageView = UIImageView()
-    let fieldWidth: CGFloat = 300
-    let fieldHeight: CGFloat = 500
     
-    var snake = Snake()
+    var snakeView: [UIView] = []
     
-    // snake step
-//    let dX: CGFloat = 10
-//    let dY: CGFloat = 10
-    
-    var pieceOfSnake = UIView()
+    var newPieceView = UIView()
     
     var timer = Timer()
-    
-    var animator: UIDynamicAnimator!
-    var collision: UICollisionBehavior!
     
     //MARK:- Methods
     override func viewDidLoad() {
@@ -34,7 +25,7 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        createField()
+        createField(fieldWidth, fieldHeight)
         createSnake()
         createNewPieceOfSnake()
     }
@@ -67,24 +58,39 @@ class ViewController: UIViewController {
     }
     
     //MARK:- field methods
-    private func createField() {
-        fieldImageView = UIImageView(frame: CGRect(x: view.center.x - fieldWidth / 2, y: view.center.y - fieldHeight / 2, width: fieldWidth, height: fieldHeight))
+    private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
+        fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
+                                                   y: Int(view.center.y) - fieldHeight / 2,
+                                                   width: fieldWidth,
+                                                   height: fieldHeight))
         fieldImageView.backgroundColor = .lightGray
         view.addSubview(fieldImageView)
     }
     
     //MARK:- snake methods
     private func createSnake() {
-        let snakeHead = UIView(frame: CGRect(x: fieldImageView.bounds.minX, y: fieldImageView.bounds.minY, width: snake.pieceWidth, height: snake.pieceHeight))
-        snakeHead.backgroundColor = .black
-        fieldImageView.addSubview(snakeHead)
-        snake.body.append(snakeHead)
-        setupCollisions()
-        
+        let snakeHead = PieceOfSnake(x: 0, y: 0)
+
+        let snakeHeadView = UIView(frame: CGRect(x: fieldImageView.bounds.minX,
+                                                 y: fieldImageView.bounds.minY,
+                                                 width: CGFloat(snakeHead.width),
+                                                 height: CGFloat(snakeHead.height)))
+        snakeHeadView.backgroundColor = .black
+        fieldImageView.addSubview(snakeHeadView)
+        snakeView.append(snakeHeadView)
+        snake.addNewPiece(newPiece: snakeHead)
+    }
+    
+    //MARK:- new piece creating
+    private func createNewPieceOfSnake() {
+        let newPiece = snake.createNewPieceOfSnake()
+        newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: newPiece.width, height: newPiece.height)
+        newPieceView.backgroundColor = .black
+        fieldImageView.addSubview(newPieceView)
     }
     //MARK: похоже надо возвращать текующее направление движения, а потом в кнопках проверять доступность поворота
     private func setupTimerForMoving(_ sender: UIButton?) {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: {(Timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: {(Timer) in
             var dX = 0
             var dY = 0
             
@@ -101,53 +107,15 @@ class ViewController: UIViewController {
         })
     }
     private func moveSnake(_ dX: Int, _ dY: Int) {
-        UIView.animate(withDuration: 0.15) {
-            self.snake.body[0].center.x += CGFloat(dX)
-            self.snake.body[0].center.y += CGFloat(dY)
+        UIView.animate(withDuration: 0.3) {
+            snake.body[0].x += dX
+            snake.body[0].y += dY
+             
+            self.snakeView[0].center.x += CGFloat(dX)
+            self.snakeView[0].center.y += CGFloat(dY)
         }
     }
     
-    //MARK:- new piece of snake methods
-    private func getRandomXY(_ fieldWidth: CGFloat, _ fieldHeight: CGFloat) -> (x: CGFloat, y: CGFloat) {
-        let randomX = Int.random(in: 0...Int(fieldWidth) / 10) * 10
-        let randomY = Int.random(in: 0...Int(fieldHeight) / 10) * 10
-        return (CGFloat(randomX), CGFloat(randomY))
-    }
+
     
-    private func createNewPieceOfSnake() {
-        let randomFieldPoint = getRandomXY(fieldWidth, fieldHeight)
-        pieceOfSnake.backgroundColor = .black
-        pieceOfSnake.frame = CGRect(x: randomFieldPoint.x, y: randomFieldPoint.y, width: snake.pieceWidth, height: snake.pieceHeight)
-        fieldImageView.addSubview(pieceOfSnake)
-    }
-    
-    //MARK:- dynamic animator
-    private func setupCollisions() {
-        animator = UIDynamicAnimator(referenceView: fieldImageView)
-//        let gravity = UIGravityBehavior(items: snake.body)
-//        animator.addBehavior(gravity)
-        collision = UICollisionBehavior(items: snake.body)
-        collision.translatesReferenceBoundsIntoBoundary = true
-        animator.addBehavior(collision)
-        collision.addBoundary(withIdentifier: "bottomBoundary" as NSCopying,
-                              from: CGPoint(x: 0, y: fieldImageView.bounds.height),
-                              to: CGPoint(x: fieldImageView.bounds.width, y: fieldImageView.bounds.height))
-
-
-        collision.collisionDelegate = self
-    }
 }
-
-extension ViewController: UICollisionBehaviorDelegate {
-    func collisionBehavior(_ behavior: UICollisionBehavior, beganContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?, at p: CGPoint) {
-        print("test")
-        let identifier = identifier as? String
-        print(identifier)
-        let bottomBoundary = "bottomBoundary"
-        if identifier == bottomBoundary {
-            print("got it")
-         //  snake.body[0].backgroundColor = .red
-        }
-    }
-}
-
