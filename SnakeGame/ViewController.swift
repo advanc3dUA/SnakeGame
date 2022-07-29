@@ -38,23 +38,30 @@ class ViewController: UIViewController {
     
     //MARK:- move buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
-        timer.invalidate()
-        setupTimerForMoving(sender)
+        if snake.checkCurrentDirection() == .leftOrRight {
+            timer.invalidate()
+            setupTimerForMoving(sender)
+        }
     }
 
     @IBAction func moveLeftButton(_ sender: UIButton) {
-        timer.invalidate()
-        setupTimerForMoving(sender)
+        if snake.checkCurrentDirection() == .leftOrRight {
+            timer.invalidate()
+            setupTimerForMoving(sender)
+        }
     }
-    
     @IBAction func moveUpButton(_ sender: UIButton) {
-        timer.invalidate()
-        setupTimerForMoving(sender)
+        if snake.checkCurrentDirection() == .upOrDown {
+            timer.invalidate()
+            setupTimerForMoving(sender)
+        }
     }
     
     @IBAction func moveDownButton(_ sender: UIButton) {
-        timer.invalidate()
-        setupTimerForMoving(sender)
+        if snake.checkCurrentDirection() == .upOrDown {
+            timer.invalidate()
+            setupTimerForMoving(sender)
+        }
     }
     
     //MARK:- field methods

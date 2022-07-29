@@ -10,6 +10,10 @@ import Foundation
 let fieldWidth: Int = 300
 let fieldHeight: Int = 500
 
+enum CurrentDirection {
+    case upOrDown, leftOrRight
+}
+
 struct PieceOfSnake {
     var x: Int
     var y: Int
@@ -70,6 +74,16 @@ class Snake {
         }
     }
     
+    //MARK:- checking current direction
+    func checkCurrentDirection() -> CurrentDirection {
+        let head = self.body[0]
+        if abs(head.x - head.lastX!) > 0 {
+            return .upOrDown
+        } else {
+            return .leftOrRight
+        }
+        
+    }
     //MARK:- lose game conditions
     func isOutOfBorders(widthOfBoard: Int, heightOfBoard: Int) -> Bool {
         let head = self.body[0]
@@ -98,4 +112,4 @@ class Snake {
 
 var snake = Snake()
 var newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
-
+var allowedDirection = CurrentDirection.upOrDown
