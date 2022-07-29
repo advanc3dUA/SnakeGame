@@ -13,8 +13,11 @@ let fieldHeight: Int = 500
 struct PieceOfSnake {
     var x: Int
     var y: Int
+    var lastX: Int?
+    var lastY: Int?
     let width: Int = 10
     let height: Int = 10
+    
     
     //MARK:- new piece of snake methods
     func getRandomXY(_ fieldWidth: Int, _ fieldHeight: Int) -> (x: Int, y: Int) {
@@ -26,6 +29,12 @@ struct PieceOfSnake {
     func createNewPieceOfSnake() -> PieceOfSnake {
         let randomFieldPoint = getRandomXY(fieldWidth, fieldHeight)
         return PieceOfSnake(x: randomFieldPoint.x, y: randomFieldPoint.y)
+    }
+    
+    //MARK:- save last position
+    mutating func saveLastPosition() {
+        self.lastX = self.x
+        self.lastY = self.y
     }
 }
 

@@ -107,7 +107,7 @@ class ViewController: UIViewController {
             
             if snake.pickUpNewPiece(newPiece) {
                 self.pickupNewPiece(self.newPieceView)
-                //self.createNewPieceOfSnake()
+                print(snake.body.count, self.snakeView.count)
             }
             
         })
@@ -122,13 +122,12 @@ class ViewController: UIViewController {
                                                        width: CGFloat(newPiece.width),
                                                        height: CGFloat(newPiece.height))))
             self.snakeView.last?.backgroundColor = .yellow
+    
             
             self.fieldImageView.addSubview(self.snakeView.last!)
         } completion: { (_) in
             newPieceView.removeFromSuperview()
-            print(newPieceView)
             self.createNewPieceOfSnake()
-            print(newPieceView)
             newPieceView.alpha = 1.0
         }
 
@@ -136,17 +135,22 @@ class ViewController: UIViewController {
     
     private func moveSnake(_ dX: Int, _ dY: Int) {
         UIView.animate(withDuration: 0.15) {
+            
+            for index in 0..<snake.body.count {
+                snake.body[index].saveLastPosition()
+            }
             snake.body[0].x += dX
             snake.body[0].y += dY
             
             for index in 1..<snake.body.count {
-                snake.body[index].x = snake.body[index - 1].x
-                snake.body[index].y = snake.body[index - 1].y
-                self.snakeView[index].center = self.snakeView[index - 1].center
+                snake.body[index].x = snake.body[index - 1].lastX!
+                snake.body[index].y = snake.body[index - 1].lastY!
+                self.snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX!, y: snake.body[index - 1].lastY!, width: 10, height: 10)
             }
              
             self.snakeView[0].center.x += CGFloat(dX)
             self.snakeView[0].center.y += CGFloat(dY)
+            
         }
     }
     
