@@ -116,18 +116,17 @@ class ViewController: UIViewController {
     private func pickupNewPiece(_ newPieceView: UIView) {
         UIView.animate(withDuration: 1) {
             newPieceView.backgroundColor = .red
-            newPieceView.alpha = 0.0
+            newPieceView.alpha = 0.1
             self.snakeView.append(UIView(frame: CGRect(x: newPieceView.center.x - CGFloat(newPiece.width / 2),
                                                        y: newPieceView.center.y - CGFloat(newPiece.height / 2),
                                                        width: CGFloat(newPiece.width),
                                                        height: CGFloat(newPiece.height))))
             self.snakeView.last?.backgroundColor = .yellow
-    
-            
             self.fieldImageView.addSubview(self.snakeView.last!)
-        } completion: { (_) in
+            
             newPieceView.removeFromSuperview()
             self.createNewPieceOfSnake()
+        } completion: { (_) in
             newPieceView.alpha = 1.0
         }
 
@@ -141,6 +140,8 @@ class ViewController: UIViewController {
             }
             snake.body[0].x += dX
             snake.body[0].y += dY
+            self.snakeView[0].center.x += CGFloat(dX)
+            self.snakeView[0].center.y += CGFloat(dY)
             
             for index in 1..<snake.body.count {
                 snake.body[index].x = snake.body[index - 1].lastX!
@@ -148,8 +149,7 @@ class ViewController: UIViewController {
                 self.snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX!, y: snake.body[index - 1].lastY!, width: 10, height: 10)
             }
              
-            self.snakeView[0].center.x += CGFloat(dX)
-            self.snakeView[0].center.y += CGFloat(dY)
+            
             
         }
     }
