@@ -10,6 +10,8 @@ import UIKit
 class ViewController: UIViewController {
 
     //MARK:- Variables
+    @IBOutlet var moveButtons: [UIButton]!
+    
     var fieldImageView = UIImageView()
     
     var snakeView: [UIView] = []
@@ -26,8 +28,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         createField(fieldWidth, fieldHeight)
-        createSnake()
-        createNewPieceOfSnakeView()
+        setupNewGame()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,27 +39,31 @@ class ViewController: UIViewController {
     
     //MARK:- move buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
-        if snake.checkCurrentDirection() == .leftOrRight {
+        print(currentDirection)
+        if snake.checkCurrentDirection() == .up || snake.checkCurrentDirection() == .down {
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
 
     @IBAction func moveLeftButton(_ sender: UIButton) {
-        if snake.checkCurrentDirection() == .leftOrRight {
+        print(currentDirection)
+        if snake.checkCurrentDirection() == .up || snake.checkCurrentDirection() == .down {
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
     @IBAction func moveUpButton(_ sender: UIButton) {
-        if snake.checkCurrentDirection() == .upOrDown {
+        print(currentDirection)
+        if snake.checkCurrentDirection() == .right || snake.checkCurrentDirection() == .left {
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
     
     @IBAction func moveDownButton(_ sender: UIButton) {
-        if snake.checkCurrentDirection() == .upOrDown {
+        print(currentDirection)
+        if snake.checkCurrentDirection() == .right || snake.checkCurrentDirection() == .left {
             timer.invalidate()
             setupTimerForMoving(sender)
         }
@@ -67,11 +72,30 @@ class ViewController: UIViewController {
     //MARK:- field methods
     private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
         fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
-                                                   y: Int(view.center.y) - fieldHeight / 2,
+                                                   y: Int(view.center.y) - 350,
                                                    width: fieldWidth,
                                                    height: fieldHeight))
         fieldImageView.backgroundColor = .lightGray
         view.addSubview(fieldImageView)
+    }
+    
+    //MARK:- game methods
+    private func setupNewGame() {
+        snake.setupNewGame()
+        snakeView.removeAll()
+        createSnake()
+        createNewPieceOfSnakeView()
+        for button in moveButtons {
+            button.isHidden = false
+        }
+    }
+    
+    private func finishGame() {
+        timer.invalidate()
+        for button in moveButtons {
+            button.isHidden = true
+        }
+        print("you lost")
     }
     
     //MARK:- snake methods
@@ -98,6 +122,13 @@ class ViewController: UIViewController {
     
     private func setupTimerForMoving(_ sender: UIButton?) {
         timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: {(Timer) in
+
+            if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
+                gameStatus = .lost
+            }
+            
+            if gameStatus == .lost { self.finishGame() }
+            
             var dX = 0
             var dY = 0
             
@@ -111,14 +142,6 @@ class ViewController: UIViewController {
             }
             
             self.moveSnake(dX, dY)
-            
-            if snake.touchedBorders(fieldWidth, fieldHeight) {
-                gameStatus = .lost
-            }
-            
-            if snake.tailIsTouched() {
-                gameStatus = .lost
-            }
             
             if snake.pickUpNewPiece(newPiece) {
                 self.pickupNewPiece(self.newPieceView)
@@ -147,10 +170,12 @@ class ViewController: UIViewController {
     }
     
     private func moveSnake(_ dX: Int, _ dY: Int) {
-        UIView.animate(withDuration: 0.15) {
+        UIView.animate(withDuration: 0.2) {
             
             snake.saveLastPositions()
             snake.moveSnake(dX, dY)
+            currentDirection = snake.checkCurrentDirection()
+            print(currentDirection)
 
             self.snakeView[0].center.x += CGFloat(dX)
             self.snakeView[0].center.y += CGFloat(dY)

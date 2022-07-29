@@ -11,7 +11,7 @@ let fieldWidth: Int = 300
 let fieldHeight: Int = 500
 
 enum CurrentDirection {
-    case upOrDown, leftOrRight
+    case up, down, left, right
 }
 
 enum GameStatus {
@@ -49,6 +49,14 @@ struct PieceOfSnake {
 class Snake {
     var body: [PieceOfSnake] = []
     
+    //MARK:- setup new game
+    func setupNewGame() {
+        self.body.removeAll()
+        newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
+        currentDirection = CurrentDirection.right
+        gameStatus = GameStatus.running
+    }
+    
     //MARK:- add or pickup new piece methods
     func addNewPiece(newPiece: PieceOfSnake) {
         self.body.append(newPiece)
@@ -81,22 +89,27 @@ class Snake {
     //MARK:- checking current direction
     func checkCurrentDirection() -> CurrentDirection {
         let head = self.body[0]
-        if abs(head.x - head.lastX!) > 0 {
-            return .upOrDown
-        } else {
-            return .leftOrRight
+        if let lastX = head.lastX, let lastY = head.lastY {
+            if (head.x - lastX) > 0 { return .right }
+            if (head.x - lastX) < 0 { return .left }
+            if (head.y - lastY) > 0 { return .down }
         }
-        
+        return .up
     }
     //MARK:- lose game conditions
     func touchedBorders(_ widthOfBoard: Int, _ heightOfBoard: Int) -> Bool {
         let head = self.body[0]
         
-        if head.x < 0 || head.x > widthOfBoard {
+        if head.x < 0 && currentDirection == .left {
             return true
         }
-        
-        if head.y < 0 || head.y > heightOfBoard {
+        if head.x > fieldWidth && currentDirection == .right {
+            return true
+        }
+        if head.y < 0 && currentDirection == .up {
+            return true
+        }
+        if head.y > fieldHeight && currentDirection == .down {
             return true
         }
         return false
@@ -116,5 +129,5 @@ class Snake {
 
 var snake = Snake()
 var newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
-var allowedDirection = CurrentDirection.upOrDown
+var currentDirection = CurrentDirection.right
 var gameStatus = GameStatus.running
