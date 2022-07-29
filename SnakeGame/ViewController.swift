@@ -107,7 +107,6 @@ class ViewController: UIViewController {
             
             if snake.pickUpNewPiece(newPiece) {
                 self.pickupNewPiece(self.newPieceView)
-                print(snake.body.count, self.snakeView.count)
             }
             
         })
@@ -135,22 +134,18 @@ class ViewController: UIViewController {
     private func moveSnake(_ dX: Int, _ dY: Int) {
         UIView.animate(withDuration: 0.15) {
             
-            for index in 0..<snake.body.count {
-                snake.body[index].saveLastPosition()
-            }
-            snake.body[0].x += dX
-            snake.body[0].y += dY
+            snake.saveLastPositions()
+            snake.moveSnake(dX, dY)
+
             self.snakeView[0].center.x += CGFloat(dX)
             self.snakeView[0].center.y += CGFloat(dY)
             
             for index in 1..<snake.body.count {
-                snake.body[index].x = snake.body[index - 1].lastX!
-                snake.body[index].y = snake.body[index - 1].lastY!
-                self.snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX!, y: snake.body[index - 1].lastY!, width: 10, height: 10)
+                self.snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
+                                                     y: snake.body[index - 1].lastY ?? 0,
+                                                     width: snake.body[index - 1].width,
+                                                     height: snake.body[index - 1].height)
             }
-             
-            
-            
         }
     }
     

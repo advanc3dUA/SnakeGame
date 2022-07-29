@@ -54,6 +54,22 @@ class Snake {
         return false
     }
     
+    //MARK:- moving methods
+    func saveLastPositions() {
+        for index in 0..<snake.body.count {
+            snake.body[index].saveLastPosition()
+        }
+    }
+    func moveSnake(_ dX: Int, _ dY: Int) {
+        snake.body[0].x += dX
+        snake.body[0].y += dY
+        
+        for index in 1..<snake.body.count {
+            snake.body[index].x = snake.body[index - 1].lastX ?? 0
+            snake.body[index].y = snake.body[index - 1].lastY ?? 0
+        }
+    }
+    
     //MARK:- lose game conditions
     func isOutOfBorders(widthOfBoard: Int, heightOfBoard: Int) -> Bool {
         let head = self.body[0]
