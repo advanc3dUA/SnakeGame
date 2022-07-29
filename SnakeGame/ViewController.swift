@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         createField(fieldWidth, fieldHeight)
         createSnake()
-        createNewPieceOfSnake()
+        createNewPieceOfSnakeView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,7 +89,7 @@ class ViewController: UIViewController {
     }
     
     //MARK:- new piece creating
-    private func createNewPieceOfSnake() {
+    private func createNewPieceOfSnakeView() {
         newPiece = newPiece.createNewPieceOfSnake()
         newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: newPiece.width, height: newPiece.height)
         newPieceView.backgroundColor = .black
@@ -131,7 +131,7 @@ class ViewController: UIViewController {
             self.fieldImageView.addSubview(self.snakeView.last!)
             
             newPieceView.removeFromSuperview()
-            self.createNewPieceOfSnake()
+            self.createNewPieceOfSnakeView()
         } completion: { (_) in
             newPieceView.alpha = 1.0
         }
