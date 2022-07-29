@@ -14,6 +14,10 @@ enum CurrentDirection {
     case upOrDown, leftOrRight
 }
 
+enum GameStatus {
+    case running, lost
+}
+
 struct PieceOfSnake {
     var x: Int
     var y: Int
@@ -25,7 +29,6 @@ struct PieceOfSnake {
     
     //MARK:- new piece of snake methods
     func getRandomXY(_ fieldWidth: Int, _ fieldHeight: Int) -> (x: Int, y: Int) {
-        print("got field w & h: ", fieldWidth, fieldHeight)
         let randomX = Int.random(in: 0...fieldWidth / 10 - 1) * 10
         let randomY = Int.random(in: 0...fieldHeight / 10 - 1) * 10
         return (randomX, randomY)
@@ -86,14 +89,14 @@ class Snake {
         
     }
     //MARK:- lose game conditions
-    func isOutOfBorders(widthOfBoard: Int, heightOfBoard: Int) -> Bool {
+    func touchedBorders(_ widthOfBoard: Int, _ heightOfBoard: Int) -> Bool {
         let head = self.body[0]
         
-        if head.x < widthOfBoard || head.x > widthOfBoard {
+        if head.x < 0 || head.x > widthOfBoard {
             return true
         }
         
-        if head.y < heightOfBoard || head.y > heightOfBoard {
+        if head.y < 0 || head.y > heightOfBoard {
             return true
         }
         return false
@@ -114,3 +117,4 @@ class Snake {
 var snake = Snake()
 var newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
 var allowedDirection = CurrentDirection.upOrDown
+var gameStatus = GameStatus.running

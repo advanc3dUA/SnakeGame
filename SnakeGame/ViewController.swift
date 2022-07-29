@@ -95,7 +95,7 @@ class ViewController: UIViewController {
         newPieceView.backgroundColor = .black
         fieldImageView.addSubview(newPieceView)
     }
-    //MARK: похоже надо возвращать текующее направление движения, а потом в кнопках проверять доступность поворота
+    
     private func setupTimerForMoving(_ sender: UIButton?) {
         timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: {(Timer) in
             var dX = 0
@@ -111,6 +111,14 @@ class ViewController: UIViewController {
             }
             
             self.moveSnake(dX, dY)
+            
+            if snake.touchedBorders(fieldWidth, fieldHeight) {
+                gameStatus = .lost
+            }
+            
+            if snake.tailIsTouched() {
+                gameStatus = .lost
+            }
             
             if snake.pickUpNewPiece(newPiece) {
                 self.pickupNewPiece(self.newPieceView)
