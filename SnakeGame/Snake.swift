@@ -29,8 +29,8 @@ struct PieceOfSnake {
     
     //MARK:- new piece of snake methods
     func getRandomXY(_ fieldWidth: Int, _ fieldHeight: Int) -> (x: Int, y: Int) {
-        let randomX = Int.random(in: 0...fieldWidth / 10 - 1) * 10
-        let randomY = Int.random(in: 0...fieldHeight / 10 - 1) * 10
+        let randomX = Int.random(in: 0...fieldWidth / 10 - 2) * 10
+        let randomY = Int.random(in: 0...fieldHeight / 10 - 2) * 10
         return (randomX, randomY)
     }
     
