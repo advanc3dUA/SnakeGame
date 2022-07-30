@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet var moveButtons: [UIButton]!
     
     var fieldImageView = UIImageView()
+    var borderOfFieldImageView = UIImageView()
     
     var snakeView: [UIView] = []
     
@@ -72,6 +73,9 @@ class ViewController: UIViewController {
                                                    width: fieldWidth,
                                                    height: fieldHeight))
         fieldImageView.backgroundColor = .lightGray
+        fieldImageView.layer.masksToBounds = false
+        fieldImageView.layer.borderWidth = 10
+        fieldImageView.layer.borderColor = UIColor.red.cgColor
         view.addSubview(fieldImageView)
     }
     
@@ -96,16 +100,15 @@ class ViewController: UIViewController {
     
     //MARK:- snake methods
     private func createSnake() {
-        let snakeHead = PieceOfSnake(x: 0, y: 0)
+        snake.createSnake()
 
-        let snakeHeadView = UIView(frame: CGRect(x: fieldImageView.bounds.minX,
-                                                 y: fieldImageView.bounds.minY,
-                                                 width: CGFloat(snakeHead.width),
-                                                 height: CGFloat(snakeHead.height)))
+        let snakeHeadView = UIView(frame: CGRect(x: fieldImageView.bounds.minX + CGFloat(newPiece.width),
+                                                 y: fieldImageView.bounds.minY + CGFloat(newPiece.height),
+                                                 width: CGFloat(newPiece.width),
+                                                 height: CGFloat(newPiece.height)))
         snakeHeadView.backgroundColor = .black
         fieldImageView.addSubview(snakeHeadView)
         snakeView.append(snakeHeadView)
-        snake.addNewPiece(newPiece: snakeHead)
     }
     
     //MARK:- new piece creating
