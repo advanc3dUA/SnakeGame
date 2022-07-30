@@ -85,13 +85,15 @@ class ViewController: UIViewController {
             }
             pauseButton.isSelected = true
             pauseButton.backgroundColor = .yellow
+            restartButton.isHidden = true
         } else {
             setupTimerForMoving(nil)
             for button in moveButtons {
                 button.isUserInteractionEnabled = true
             }
             pauseButton.isSelected = false
-            pauseButton.backgroundColor = .red
+            pauseButton.backgroundColor = .systemPink
+            restartButton.isHidden = false
         }
     }
     //MARK:- field methods
@@ -118,6 +120,7 @@ class ViewController: UIViewController {
         for button in moveButtons {
             button.alpha = 1.0
         }
+        pauseButton.isHidden = false
     }
     
     private func finishGame() {
@@ -134,6 +137,8 @@ class ViewController: UIViewController {
             view.removeFromSuperview()
         }
         snakeView.removeAll()
+        pauseButton.isHidden = true
+        
         print("you lost")
     }
     
