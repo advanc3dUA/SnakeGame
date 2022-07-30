@@ -14,7 +14,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var pauseButton: UIButton!
     
-    
     var fieldImageView = UIImageView()
     
     var snakeView: [UIView] = []
@@ -25,6 +24,9 @@ class ViewController: UIViewController {
     var currentdX: Int = 0
     var currentdY: Int = 0
     
+    let generator = UISelectionFeedbackGenerator()
+    let pickUpGenerator = UIImpactFeedbackGenerator(style: .heavy)
+    
     //MARK:- Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         createField(fieldWidth, fieldHeight)
+        addFeedbackForMoveButtons()
         setupNewGame()
     }
     
@@ -96,6 +99,20 @@ class ViewController: UIViewController {
             restartButton.isHidden = false
         }
     }
+    
+    //MARK:- feedback
+    func addFeedbackForMoveButtons() {
+        for button in moveButtons {
+        button.addTarget(self, action: #selector(vibrate), for: .touchUpInside)
+        }
+    }
+   @objc func vibrate() {
+        generator.selectionChanged()
+    }
+    
+    func addFeedbackForPickUp() {
+        pickUpGenerator.impactOccurred()
+    }
     //MARK:- field methods
     private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
         fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
@@ -120,26 +137,24 @@ class ViewController: UIViewController {
         for button in moveButtons {
             button.alpha = 1.0
         }
-        pauseButton.isHidden = false
+        pauseButton.alpha = 1.0
     }
     
     private func finishGame() {
         timer.invalidate()
         
-        UIView.animate(withDuration: 0.5) { [unowned self] () in
+        UIView.animate(withDuration: 0.75) { [unowned self] () in
             for button in moveButtons {
                 button.alpha = 0
             }
+            pauseButton.alpha = 0
         }
         newPieceView.removeFromSuperview()
-        
+
         for view in snakeView {
             view.removeFromSuperview()
         }
         snakeView.removeAll()
-        pauseButton.isHidden = true
-        
-        print("you lost")
     }
     
     //MARK:- snake methods
@@ -195,6 +210,7 @@ class ViewController: UIViewController {
     }
     
     private func pickupNewPiece(_ newPieceView: UIView) {
+        addFeedbackForPickUp()
         UIView.animate(withDuration: 1) {
             newPieceView.backgroundColor = .red
             newPieceView.alpha = 0.1
