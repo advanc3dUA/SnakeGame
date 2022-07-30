@@ -11,6 +11,7 @@ class ViewController: UIViewController {
 
     //MARK:- Variables
     @IBOutlet var moveButtons: [UIButton]!
+    @IBOutlet weak var restartButton: UIButton!
     
     var fieldImageView = UIImageView()
     
@@ -92,16 +93,18 @@ class ViewController: UIViewController {
         createSnake()
         createNewPieceOfSnakeView()
         for button in moveButtons {
-            button.isHidden = false
+            button.alpha = 1.0
         }
     }
     
     private func finishGame() {
         timer.invalidate()
-        for button in moveButtons {
-            button.isHidden = true
+        
+        UIView.animate(withDuration: 0.5) { [unowned self] () in
+            for button in moveButtons {
+                button.alpha = 0
+            }
         }
-        //snake.eraseBody()
         newPieceView.removeFromSuperview()
         
         for view in snakeView {

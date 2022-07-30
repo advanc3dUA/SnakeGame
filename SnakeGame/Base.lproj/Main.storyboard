@@ -83,6 +83,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="restartButton" destination="vrE-jZ-Gs6" id="PeY-99-b4M"/>
                         <outletCollection property="moveButtons" destination="YMO-Sd-Fwl" collectionClass="NSMutableArray" id="nC0-jZ-xJ1"/>
                         <outletCollection property="moveButtons" destination="eVV-Jt-g7a" collectionClass="NSMutableArray" id="2Ye-qy-Pq6"/>
                         <outletCollection property="moveButtons" destination="XjA-E3-ziQ" collectionClass="NSMutableArray" id="JhO-rR-ajw"/>
