@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     //MARK:- Variables
     @IBOutlet var moveButtons: [UIButton]!
     @IBOutlet weak var restartButton: UIButton!
+    @IBOutlet weak var pauseButton: UIButton!
+    
     
     var fieldImageView = UIImageView()
     
@@ -20,6 +22,8 @@ class ViewController: UIViewController {
     var newPieceView = UIView()
     
     var timer = Timer()
+    var currentdX: Int = 0
+    var currentdY: Int = 0
     
     //MARK:- Methods
     override func viewDidLoad() {
@@ -73,6 +77,23 @@ class ViewController: UIViewController {
         setupTimerForMoving(nil)
     }
     
+    @IBAction func pauseButton(_ sender: UIButton) {
+        if timer.isValid {
+            timer.invalidate()
+            for button in moveButtons {
+                button.isUserInteractionEnabled = false
+            }
+            pauseButton.isSelected = true
+            pauseButton.backgroundColor = .yellow
+        } else {
+            setupTimerForMoving(nil)
+            for button in moveButtons {
+                button.isUserInteractionEnabled = true
+            }
+            pauseButton.isSelected = false
+            pauseButton.backgroundColor = .red
+        }
+    }
     //MARK:- field methods
     private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
         fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
@@ -88,6 +109,8 @@ class ViewController: UIViewController {
     
     //MARK:- game methods
     private func setupNewGame() {
+        currentdX = 10
+        currentdY = 0
         snake.setupNewGame()
         snakeView.removeAll()
         createSnake()
@@ -146,9 +169,11 @@ class ViewController: UIViewController {
                 case 1: dX += 10
                 case 2: dY -= 10
                 case 3: dY += 10
-                case nil: dX += 10
+                case nil: dX += self.currentdX; dY += self.currentdY
                 default: return
             }
+            self.currentdX = dX
+            self.currentdY = dY
             
             self.moveSnake(dX, dY)
             
