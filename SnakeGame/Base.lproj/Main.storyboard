@@ -65,6 +65,19 @@
                                     <action selector="moveDownButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zUI-Pn-F6A"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vrE-jZ-Gs6">
+                                <rect key="frame" x="333" y="637" width="61" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemPinkColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="restart.circle" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="moveRightButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LFC-eX-9cV"/>
+                                    <action selector="restartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wkz-O8-cIJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -86,6 +99,7 @@
         <image name="arrow.down" catalog="system" width="120" height="128"/>
         <image name="arrow.forward" catalog="system" width="128" height="98"/>
         <image name="arrow.up" catalog="system" width="120" height="128"/>
+        <image name="restart.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

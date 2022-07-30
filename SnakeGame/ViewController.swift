@@ -66,6 +66,9 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func restartButton(_ sender: UIButton) {
+    }
+    
     //MARK:- field methods
     private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
         fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
