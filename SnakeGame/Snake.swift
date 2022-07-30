@@ -29,8 +29,8 @@ struct PieceOfSnake {
     
     //MARK:- new piece of snake methods
     func getRandomXY(_ fieldWidth: Int, _ fieldHeight: Int) -> (x: Int, y: Int) {
-        let randomX = Int.random(in: 0...fieldWidth / 10 - 2) * 10
-        let randomY = Int.random(in: 0...fieldHeight / 10 - 2) * 10
+        let randomX = Int.random(in: self.width...fieldWidth / 10 - 2) * 10
+        let randomY = Int.random(in: self.height...fieldHeight / 10 - 2) * 10
         return (randomX, randomY)
     }
     
@@ -60,6 +60,10 @@ class Snake {
     func createSnake() {
         let snakeHead = PieceOfSnake(x: newPiece.width, y: newPiece.height)
         snake.addNewPiece(newPiece: snakeHead)
+    }
+    
+    func eraseBody() {
+        self.body.removeAll()
     }
     
     //MARK:- add or pickup new piece methods

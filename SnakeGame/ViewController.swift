@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     @IBOutlet var moveButtons: [UIButton]!
     
     var fieldImageView = UIImageView()
-    var borderOfFieldImageView = UIImageView()
     
     var snakeView: [UIView] = []
     
@@ -67,6 +66,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func restartButton(_ sender: UIButton) {
+        finishGame()
     }
     
     //MARK:- field methods
@@ -97,6 +97,19 @@ class ViewController: UIViewController {
         timer.invalidate()
         for button in moveButtons {
             button.isHidden = true
+        }
+        snake.eraseBody()
+        UIView.animate(withDuration: 1) {
+            self.newPieceView.alpha = 0
+            for view in self.snakeView {
+                view.alpha = 0
+            }
+        } completion: { (_) in
+            self.newPieceView.removeFromSuperview()
+            for view in self.snakeView {
+                view.removeFromSuperview()
+                self.snakeView.removeAll()
+            }
         }
         print("you lost")
     }
