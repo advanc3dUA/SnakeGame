@@ -51,7 +51,6 @@ class Snake {
     
     //MARK:- setup new game
     func setupNewGame() {
-        self.body.removeAll()
         newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
         currentDirection = CurrentDirection.right
         gameStatus = GameStatus.running

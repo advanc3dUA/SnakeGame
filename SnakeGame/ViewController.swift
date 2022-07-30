@@ -67,6 +67,9 @@ class ViewController: UIViewController {
     
     @IBAction func restartButton(_ sender: UIButton) {
         finishGame()
+        snake.eraseBody()
+        setupNewGame()
+        setupTimerForMoving(nil)
     }
     
     //MARK:- field methods
@@ -98,19 +101,13 @@ class ViewController: UIViewController {
         for button in moveButtons {
             button.isHidden = true
         }
-        snake.eraseBody()
-        UIView.animate(withDuration: 1) {
-            self.newPieceView.alpha = 0
-            for view in self.snakeView {
-                view.alpha = 0
-            }
-        } completion: { (_) in
-            self.newPieceView.removeFromSuperview()
-            for view in self.snakeView {
-                view.removeFromSuperview()
-                self.snakeView.removeAll()
-            }
+        //snake.eraseBody()
+        newPieceView.removeFromSuperview()
+        
+        for view in snakeView {
+            view.removeFromSuperview()
         }
+        snakeView.removeAll()
         print("you lost")
     }
     
