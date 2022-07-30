@@ -39,31 +39,27 @@ class ViewController: UIViewController {
     
     //MARK:- move buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
-        print(currentDirection)
-        if snake.checkCurrentDirection() == .up || snake.checkCurrentDirection() == .down {
+        if currentDirection == .up || currentDirection == .down {
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
 
     @IBAction func moveLeftButton(_ sender: UIButton) {
-        print(currentDirection)
-        if snake.checkCurrentDirection() == .up || snake.checkCurrentDirection() == .down {
+        if currentDirection == .up || currentDirection == .down {
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
     @IBAction func moveUpButton(_ sender: UIButton) {
-        print(currentDirection)
-        if snake.checkCurrentDirection() == .right || snake.checkCurrentDirection() == .left {
+        if currentDirection == .left || currentDirection == .right {
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
     
     @IBAction func moveDownButton(_ sender: UIButton) {
-        print(currentDirection)
-        if snake.checkCurrentDirection() == .right || snake.checkCurrentDirection() == .left {
+        if currentDirection == .left || currentDirection == .right {
             timer.invalidate()
             setupTimerForMoving(sender)
         }
@@ -122,12 +118,6 @@ class ViewController: UIViewController {
     
     private func setupTimerForMoving(_ sender: UIButton?) {
         timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: {(Timer) in
-
-            if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
-                gameStatus = .lost
-            }
-            
-            if gameStatus == .lost { self.finishGame() }
             
             var dX = 0
             var dY = 0
@@ -142,6 +132,11 @@ class ViewController: UIViewController {
             }
             
             self.moveSnake(dX, dY)
+            
+            if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
+                gameStatus = .lost
+                self.finishGame()
+            }
             
             if snake.pickUpNewPiece(newPiece) {
                 self.pickupNewPiece(self.newPieceView)
@@ -175,7 +170,6 @@ class ViewController: UIViewController {
             snake.saveLastPositions()
             snake.moveSnake(dX, dY)
             currentDirection = snake.checkCurrentDirection()
-            print(currentDirection)
 
             self.snakeView[0].center.x += CGFloat(dX)
             self.snakeView[0].center.y += CGFloat(dY)
