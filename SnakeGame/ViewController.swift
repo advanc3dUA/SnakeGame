@@ -51,6 +51,15 @@ class ViewController: UIViewController {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if self.isMovingFromParent {
+            finishGame()
+            snake.eraseBody()
+        }
+    }
+    
     //MARK:- move buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
@@ -98,7 +107,7 @@ class ViewController: UIViewController {
         if timer.isValid {
             timer.invalidate()
             for button in moveButtons {
-                button.isUserInteractionEnabled = false
+                button.isHidden = true
             }
             pauseButton.isSelected = true
             pauseButton.backgroundColor = .yellow
@@ -106,7 +115,7 @@ class ViewController: UIViewController {
         } else {
             setupTimerForMoving(nil)
             for button in moveButtons {
-                button.isUserInteractionEnabled = true
+                button.isHidden = false
             }
             pauseButton.isSelected = false
             pauseButton.backgroundColor = .systemPink
@@ -124,7 +133,7 @@ class ViewController: UIViewController {
     //MARK:- field methods
     private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
         fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
-                                                   y: Int(view.center.y) - 350,
+                                                   y: Int(view.center.y) - 410,
                                                    width: fieldWidth,
                                                    height: fieldHeight))
         fieldImageView.backgroundColor = .lightGray
@@ -142,6 +151,7 @@ class ViewController: UIViewController {
     private func setupNewGame() {
         currentdX = 10
         currentdY = 0
+        score = 0
         resetScoreClock()
         snake.setupNewGame()
         snakeView.removeAll()
@@ -252,6 +262,7 @@ class ViewController: UIViewController {
             snakeView[0].center.x += CGFloat(dX)
             snakeView[0].center.y += CGFloat(dY)
             
+            print(snake.body.count)
             for index in 1..<snake.body.count {
                 snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
                                                      y: snake.body[index - 1].lastY ?? 0,
