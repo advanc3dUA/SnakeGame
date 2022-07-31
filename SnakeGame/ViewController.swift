@@ -60,7 +60,7 @@ class ViewController: UIViewController {
         }
     }
     
-    //MARK:- move buttons action
+    //MARK:- buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
         if currentDirection == .up || currentDirection == .down {
@@ -193,7 +193,7 @@ class ViewController: UIViewController {
         snakeView.append(snakeHeadView)
     }
     
-    //MARK:- new piece creating
+    //MARK:- new piece methods
     private func createNewPieceOfSnakeView() {
         newPiece = newPiece.createNewPieceOfSnake()
         newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: newPiece.width, height: newPiece.height)
@@ -201,6 +201,28 @@ class ViewController: UIViewController {
         fieldImageView.addSubview(newPieceView)
     }
     
+    private func pickupNewPiece(_ newPieceView: UIView) {
+        addFeedbackForPickUp()
+        score += 1
+        UIView.animate(withDuration: 1) {
+            newPieceView.backgroundColor = .red
+            newPieceView.alpha = 0.1
+            self.snakeView.append(UIView(frame: CGRect(x: newPieceView.center.x - CGFloat(newPiece.width / 2),
+                                                       y: newPieceView.center.y - CGFloat(newPiece.height / 2),
+                                                       width: CGFloat(newPiece.width),
+                                                       height: CGFloat(newPiece.height))))
+            self.snakeView.last?.backgroundColor = .yellow
+            self.fieldImageView.addSubview(self.snakeView.last!)
+            
+            newPieceView.removeFromSuperview()
+            self.createNewPieceOfSnakeView()
+        } completion: { (_) in
+            newPieceView.alpha = 1.0
+        }
+
+    }
+    
+    //MARK:- moving snake    
     private func setupTimerForMoving(_ sender: UIButton?) {
         timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { [unowned self] (Timer) in
             
@@ -231,27 +253,6 @@ class ViewController: UIViewController {
         })
     }
     
-    private func pickupNewPiece(_ newPieceView: UIView) {
-        addFeedbackForPickUp()
-        score += 1
-        UIView.animate(withDuration: 1) {
-            newPieceView.backgroundColor = .red
-            newPieceView.alpha = 0.1
-            self.snakeView.append(UIView(frame: CGRect(x: newPieceView.center.x - CGFloat(newPiece.width / 2),
-                                                       y: newPieceView.center.y - CGFloat(newPiece.height / 2),
-                                                       width: CGFloat(newPiece.width),
-                                                       height: CGFloat(newPiece.height))))
-            self.snakeView.last?.backgroundColor = .yellow
-            self.fieldImageView.addSubview(self.snakeView.last!)
-            
-            newPieceView.removeFromSuperview()
-            self.createNewPieceOfSnakeView()
-        } completion: { (_) in
-            newPieceView.alpha = 1.0
-        }
-
-    }
-    
     private func moveSnake(_ dX: Int, _ dY: Int) {
         UIView.animate(withDuration: 0.17) { [unowned self] in
             
@@ -271,7 +272,4 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-
-    
 }
