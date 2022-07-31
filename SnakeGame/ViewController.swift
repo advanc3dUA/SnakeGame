@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet var moveButtons: [UIButton]!
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var pauseButton: UIButton!
+    @IBOutlet weak var scoreLabel: UILabel!
     
     var fieldImageView = UIImageView()
     
@@ -26,6 +27,12 @@ class ViewController: UIViewController {
     
     let generator = UISelectionFeedbackGenerator()
     let pickUpGenerator = UIImpactFeedbackGenerator(style: .heavy)
+    
+    var score: Int = 0 {
+        willSet {
+            scoreLabel.text = "Score: " + String(newValue)
+        }
+    }
     
     //MARK:- Methods
     override func viewDidLoad() {
@@ -127,10 +134,15 @@ class ViewController: UIViewController {
         view.addSubview(fieldImageView)
     }
     
+    private func resetScoreClock() {
+        scoreLabel.text = "Score: 0"
+    }
+    
     //MARK:- game methods
     private func setupNewGame() {
         currentdX = 10
         currentdY = 0
+        resetScoreClock()
         snake.setupNewGame()
         snakeView.removeAll()
         createSnake()
@@ -143,7 +155,7 @@ class ViewController: UIViewController {
     
     private func finishGame() {
         timer.invalidate()
-        
+        gameStatus = .lost
         UIView.animate(withDuration: 0.75) { [unowned self] () in
             for button in moveButtons {
                 button.alpha = 0
@@ -199,7 +211,6 @@ class ViewController: UIViewController {
             moveSnake(dX, dY)
             
             if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
-                gameStatus = .lost
                 finishGame()
             }
             
@@ -212,6 +223,7 @@ class ViewController: UIViewController {
     
     private func pickupNewPiece(_ newPieceView: UIView) {
         addFeedbackForPickUp()
+        score += 1
         UIView.animate(withDuration: 1) {
             newPieceView.backgroundColor = .red
             newPieceView.alpha = 0.1
