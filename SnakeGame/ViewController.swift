@@ -35,7 +35,6 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         createField(fieldWidth, fieldHeight)
-        addFeedbackForMoveButtons()
         setupNewGame()
     }
     
@@ -47,27 +46,35 @@ class ViewController: UIViewController {
     
     //MARK:- move buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
+        guard gameStatus == .running else { return }
         if currentDirection == .up || currentDirection == .down {
+            addFeedbackForMovingButtons()
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
 
     @IBAction func moveLeftButton(_ sender: UIButton) {
+        guard gameStatus == .running else { return }
         if currentDirection == .up || currentDirection == .down {
+            addFeedbackForMovingButtons()
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
     @IBAction func moveUpButton(_ sender: UIButton) {
+        guard gameStatus == .running else { return }
         if currentDirection == .left || currentDirection == .right {
+            addFeedbackForMovingButtons()
             timer.invalidate()
             setupTimerForMoving(sender)
         }
     }
     
     @IBAction func moveDownButton(_ sender: UIButton) {
+        guard gameStatus == .running else { return }
         if currentDirection == .left || currentDirection == .right {
+            addFeedbackForMovingButtons()
             timer.invalidate()
             setupTimerForMoving(sender)
         }
@@ -100,13 +107,7 @@ class ViewController: UIViewController {
         }
     }
     
-    //MARK:- feedback
-    func addFeedbackForMoveButtons() {
-        for button in moveButtons {
-        button.addTarget(self, action: #selector(vibrate), for: .touchUpInside)
-        }
-    }
-   @objc func vibrate() {
+   @objc func addFeedbackForMovingButtons() {
         generator.selectionChanged()
     }
     
@@ -179,7 +180,7 @@ class ViewController: UIViewController {
     }
     
     private func setupTimerForMoving(_ sender: UIButton?) {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: {(Timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { [unowned self] (Timer) in
             
             var dX = 0
             var dY = 0
@@ -189,21 +190,21 @@ class ViewController: UIViewController {
                 case 1: dX += 10
                 case 2: dY -= 10
                 case 3: dY += 10
-                case nil: dX += self.currentdX; dY += self.currentdY
+                case nil: dX += currentdX; dY += currentdY
                 default: return
             }
-            self.currentdX = dX
-            self.currentdY = dY
+            currentdX = dX
+            currentdY = dY
             
-            self.moveSnake(dX, dY)
+            moveSnake(dX, dY)
             
             if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
                 gameStatus = .lost
-                self.finishGame()
+                finishGame()
             }
             
             if snake.pickUpNewPiece(newPiece) {
-                self.pickupNewPiece(self.newPieceView)
+                pickupNewPiece(newPieceView)
             }
             
         })
