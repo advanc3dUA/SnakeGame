@@ -231,17 +231,17 @@ class ViewController: UIViewController {
     }
     
     private func moveSnake(_ dX: Int, _ dY: Int) {
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: 0.17) { [unowned self] in
             
             snake.saveLastPositions()
             snake.moveSnake(dX, dY)
             currentDirection = snake.checkCurrentDirection()
 
-            self.snakeView[0].center.x += CGFloat(dX)
-            self.snakeView[0].center.y += CGFloat(dY)
+            snakeView[0].center.x += CGFloat(dX)
+            snakeView[0].center.y += CGFloat(dY)
             
             for index in 1..<snake.body.count {
-                self.snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
+                snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
                                                      y: snake.body[index - 1].lastY ?? 0,
                                                      width: snake.body[index - 1].width,
                                                      height: snake.body[index - 1].height)

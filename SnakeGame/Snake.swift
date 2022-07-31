@@ -29,9 +29,22 @@ struct PieceOfSnake {
     
     //MARK:- new piece of snake methods
     func getRandomXY(_ fieldWidth: Int, _ fieldHeight: Int) -> (x: Int, y: Int) {
-        let randomX = Int.random(in: self.width...fieldWidth / 10 - 2) * 10
-        let randomY = Int.random(in: self.height...fieldHeight / 10 - 2) * 10
+        var randomX = 0, randomY = 0
+        repeat {
+            randomX = Int.random(in: self.width...fieldWidth / 10 - 2) * 10
+            randomY = Int.random(in: self.height...fieldHeight / 10 - 2) * 10
+        } while checkPointIsInSnakeBody(snakeBody: snake.body, x: randomX, y: randomY)
+        
         return (randomX, randomY)
+    }
+    
+    func checkPointIsInSnakeBody(snakeBody: [PieceOfSnake], x: Int, y: Int) -> Bool {
+        for piece in snakeBody {
+            if piece.x == x && piece.y == y {
+                return true
+            }
+        }
+        return false
     }
     
     func createNewPieceOfSnake() -> PieceOfSnake {
