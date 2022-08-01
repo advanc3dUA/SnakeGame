@@ -8,7 +8,7 @@
 import Foundation
 
 let fieldWidth: Int = 300
-let fieldHeight: Int = 500
+let fieldHeight: Int = 400
 
 enum CurrentDirection {
     case up, down, left, right

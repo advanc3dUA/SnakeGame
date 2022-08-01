@@ -42,6 +42,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         createField(fieldWidth, fieldHeight)
+        setupConstraints()
         setupNewGame()
     }
     
@@ -132,10 +133,15 @@ class ViewController: UIViewController {
     }
     //MARK:- field methods
     private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
-        fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
-                                                   y: Int(view.center.y) - 410,
-                                                   width: fieldWidth,
-                                                   height: fieldHeight))
+//        fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
+//                                                   y: Int(view.center.y) - 410,
+//                                                   width: fieldWidth,
+//                                                   height: fieldHeight))
+        fieldImageView = UIImageView(frame: CGRect(x: 0,
+                                                   y: 0,
+                                                   width: 0,
+                                                   height: 0))
+        fieldImageView.translatesAutoresizingMaskIntoConstraints = false
         fieldImageView.backgroundColor = .lightGray
         fieldImageView.layer.masksToBounds = false
         fieldImageView.layer.borderWidth = 10
@@ -271,5 +277,19 @@ class ViewController: UIViewController {
                                                      height: snake.body[index - 1].height)
             }
         }
+    }
+    
+    //MARK:- constraints
+    func setupConstraints() {
+//        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+//        scoreLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
+//        scoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        scoreLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+//        scoreLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        
+        fieldImageView.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 10).isActive = true
+        fieldImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        fieldImageView.widthAnchor.constraint(equalToConstant: CGFloat(fieldWidth)).isActive = true
+        fieldImageView.heightAnchor.constraint(equalToConstant: CGFloat(fieldHeight)).isActive = true
     }
 }
