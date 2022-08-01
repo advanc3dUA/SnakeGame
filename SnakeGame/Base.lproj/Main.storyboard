@@ -12,32 +12,55 @@
         <!--Menu-->
         <scene sceneID="1Nd-Oe-YgE">
             <objects>
-                <viewController id="zbB-Rn-g07" sceneMemberID="viewController">
+                <viewController id="zbB-Rn-g07" customClass="MenuViewController" customModule="SnakeGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PqO-HI-7mU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Pg-4H-Tne">
-                                <rect key="frame" x="163" y="281" width="71" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Pg-4H-Tne">
+                                <rect key="frame" x="171.5" y="281" width="71" height="30"/>
                                 <state key="normal" title="new game"/>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="show" id="Hca-rA-ycJ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NBm-ej-x4s">
-                                <rect key="frame" x="173" y="327" width="51" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NBm-ej-x4s">
+                                <rect key="frame" x="181.5" y="327" width="51" height="30"/>
                                 <state key="normal" title="options"/>
                                 <connections>
                                     <segue destination="1p6-FW-dJ5" kind="show" id="duF-aQ-BAm"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="current record:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qZn-ag-W51">
+                                <rect key="frame" x="150" y="607" width="114" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGK-eF-dXg">
+                                <rect key="frame" x="207" y="636" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dIP-CZ-T5l"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="4Pg-4H-Tne" firstAttribute="centerX" secondItem="dIP-CZ-T5l" secondAttribute="centerX" id="Ae3-CK-hR0"/>
+                            <constraint firstItem="BGK-eF-dXg" firstAttribute="top" secondItem="qZn-ag-W51" secondAttribute="bottom" constant="8" symbolic="YES" id="Fyv-yQ-Zsc"/>
+                            <constraint firstItem="4Pg-4H-Tne" firstAttribute="top" secondItem="dIP-CZ-T5l" secondAttribute="top" constant="281" id="TK7-Ta-dXp"/>
+                            <constraint firstItem="NBm-ej-x4s" firstAttribute="top" secondItem="4Pg-4H-Tne" secondAttribute="bottom" constant="16" id="c5o-ch-wGa"/>
+                            <constraint firstItem="qZn-ag-W51" firstAttribute="centerX" secondItem="NBm-ej-x4s" secondAttribute="centerX" id="iAJ-Pf-dAB"/>
+                            <constraint firstItem="BGK-eF-dXg" firstAttribute="centerX" secondItem="qZn-ag-W51" secondAttribute="centerX" id="kbG-po-VK1"/>
+                            <constraint firstItem="NBm-ej-x4s" firstAttribute="centerX" secondItem="4Pg-4H-Tne" secondAttribute="centerX" id="mRe-2s-xHh"/>
+                            <constraint firstItem="qZn-ag-W51" firstAttribute="top" secondItem="NBm-ej-x4s" secondAttribute="bottom" constant="250" id="rxM-p8-LGl"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Menu" id="sXw-eK-r9n"/>
+                    <connections>
+                        <outlet property="recordLabel" destination="BGK-eF-dXg" id="uYl-nq-IAv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yR0-eo-0MC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

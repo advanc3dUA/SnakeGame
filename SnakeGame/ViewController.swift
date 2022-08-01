@@ -28,12 +28,6 @@ class ViewController: UIViewController {
     let generator = UISelectionFeedbackGenerator()
     let pickUpGenerator = UIImpactFeedbackGenerator(style: .heavy)
     
-    var score: Int = 0 {
-        willSet {
-            scoreLabel.text = "Score: " + String(newValue)
-        }
-    }
-    
     //MARK:- Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,10 +127,6 @@ class ViewController: UIViewController {
     }
     //MARK:- field methods
     private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
-//        fieldImageView = UIImageView(frame: CGRect(x: Int(view.center.x) - fieldWidth / 2,
-//                                                   y: Int(view.center.y) - 410,
-//                                                   width: fieldWidth,
-//                                                   height: fieldHeight))
         fieldImageView = UIImageView(frame: CGRect(x: 0,
                                                    y: 0,
                                                    width: 0,
@@ -149,16 +139,11 @@ class ViewController: UIViewController {
         view.addSubview(fieldImageView)
     }
     
-    private func resetScoreClock() {
-        scoreLabel.text = "Score: 0"
-    }
-    
     //MARK:- game methods
     private func setupNewGame() {
         currentdX = 10
         currentdY = 0
-        score = 0
-        resetScoreClock()
+        scoreLabel.text = "Score: 0"
         snake.setupNewGame()
         snakeView.removeAll()
         createSnake()
@@ -172,6 +157,7 @@ class ViewController: UIViewController {
     private func finishGame() {
         timer.invalidate()
         gameStatus = .lost
+        snake.saveRecord()
         UIView.animate(withDuration: 0.75) { [unowned self] () in
             for button in moveButtons {
                 button.alpha = 0
@@ -209,7 +195,7 @@ class ViewController: UIViewController {
     
     private func pickupNewPiece(_ newPieceView: UIView) {
         addFeedbackForPickUp()
-        score += 1
+        scoreLabel.text = "Score: " + String(score)
         UIView.animate(withDuration: 1) {
             newPieceView.backgroundColor = .red
             newPieceView.alpha = 0.1
@@ -269,7 +255,6 @@ class ViewController: UIViewController {
             snakeView[0].center.x += CGFloat(dX)
             snakeView[0].center.y += CGFloat(dY)
             
-            print(snake.body.count)
             for index in 1..<snake.body.count {
                 snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
                                                      y: snake.body[index - 1].lastY ?? 0,
@@ -281,12 +266,6 @@ class ViewController: UIViewController {
     
     //MARK:- constraints
     func setupConstraints() {
-//        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-//        scoreLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
-//        scoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        scoreLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-//        scoreLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        
         fieldImageView.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 10).isActive = true
         fieldImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         fieldImageView.widthAnchor.constraint(equalToConstant: CGFloat(fieldWidth)).isActive = true

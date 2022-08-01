@@ -9,9 +9,14 @@ import Foundation
 
 let fieldWidth: Int = 300
 let fieldHeight: Int = 400
+var score = 0
 
 enum CurrentDirection {
     case up, down, left, right
+}
+
+enum CaseUserDefaults {
+    static let record = "record"
 }
 
 enum GameStatus {
@@ -62,8 +67,9 @@ struct PieceOfSnake {
 class Snake {
     var body: [PieceOfSnake] = []
     
-    //MARK:- setup new game
+    //MARK:- game methods
     func setupNewGame() {
+        score = 0
         newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
         currentDirection = CurrentDirection.right
         gameStatus = GameStatus.running
@@ -78,6 +84,12 @@ class Snake {
         self.body.removeAll()
     }
     
+    func saveRecord() {
+        if score > UserDefaults.standard.integer(forKey: CaseUserDefaults.record) {
+            UserDefaults.standard.setValue(score, forKey: CaseUserDefaults.record)
+        }
+    }
+    
     //MARK:- add or pickup new piece methods
     func addNewPiece(newPiece: PieceOfSnake) {
         self.body.append(newPiece)
@@ -86,6 +98,7 @@ class Snake {
     func pickUpNewPiece(_ newPiece: PieceOfSnake) -> Bool {
         if body[0].x == newPiece.x && body[0].y == newPiece.y {
             body.append(newPiece)
+            score += 1
             return true
         }
         return false
