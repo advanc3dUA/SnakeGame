@@ -14,6 +14,7 @@
 		BF245686288D399E008B2027 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF245685288D399E008B2027 /* Assets.xcassets */; };
 		BF245689288D399E008B2027 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF245687288D399E008B2027 /* LaunchScreen.storyboard */; };
 		BF245692288D5BA9008B2027 /* Snake.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF245691288D5BA9008B2027 /* Snake.swift */; };
+		BF3A944F2899170600F7F44E /* OptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3A944E2899170600F7F44E /* OptionsTableViewController.swift */; };
 		BF99A20E2898015D007C58E8 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF99A20D2898015D007C58E8 /* MenuViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		BF245688288D399E008B2027 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF24568A288D399E008B2027 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF245691288D5BA9008B2027 /* Snake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snake.swift; sourceTree = "<group>"; };
+		BF3A944E2899170600F7F44E /* OptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableViewController.swift; sourceTree = "<group>"; };
 		BF99A20D2898015D007C58E8 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,6 +66,7 @@
 				BF24567E288D399E008B2027 /* SceneDelegate.swift */,
 				BF245680288D399E008B2027 /* ViewController.swift */,
 				BF99A20D2898015D007C58E8 /* MenuViewController.swift */,
+				BF3A944E2899170600F7F44E /* OptionsTableViewController.swift */,
 				BF245691288D5BA9008B2027 /* Snake.swift */,
 				BF245682288D399E008B2027 /* Main.storyboard */,
 				BF245685288D399E008B2027 /* Assets.xcassets */,
@@ -145,6 +148,7 @@
 			files = (
 				BF245692288D5BA9008B2027 /* Snake.swift in Sources */,
 				BF99A20E2898015D007C58E8 /* MenuViewController.swift in Sources */,
+				BF3A944F2899170600F7F44E /* OptionsTableViewController.swift in Sources */,
 				BF245681288D399E008B2027 /* ViewController.swift in Sources */,
 				BF24567D288D399E008B2027 /* AppDelegate.swift in Sources */,
 				BF24567F288D399E008B2027 /* SceneDelegate.swift in Sources */,
