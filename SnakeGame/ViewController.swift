@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     var timer = Timer()
     var currentdX: Int = 0
     var currentdY: Int = 0
+    var timerTimeInterval = 0.15
+    var moveSnakeDuration = 0.17
     
     let generator = UISelectionFeedbackGenerator()
     let pickUpGenerator = UIImpactFeedbackGenerator(style: .heavy)
@@ -154,6 +156,8 @@ class ViewController: UIViewController {
             button.alpha = 1.0
         }
         pauseButton.alpha = 1.0
+        timerTimeInterval = 0.15
+        moveSnakeDuration = 0.17
     }
     
     private func finishGame() {
@@ -210,6 +214,12 @@ class ViewController: UIViewController {
             self.snakeView.last?.backgroundColor = .yellow
             self.fieldImageView.addSubview(self.snakeView.last!)
             
+            if score % 10 == 0 {
+                self.speedUp()
+                self.speedUpAnimation()
+                print(self.timerTimeInterval, self.moveSnakeDuration)
+            }
+            
             newPieceView.removeFromSuperview()
             self.createNewPieceOfSnakeView()
         } completion: { (_) in
@@ -220,7 +230,7 @@ class ViewController: UIViewController {
     
     //MARK:- moving snake    
     private func setupTimerForMoving(_ sender: UIButton?) {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true, block: { [unowned self] (Timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: timerTimeInterval, repeats: true, block: { [unowned self] (Timer) in
             
             var dX = 0
             var dY = 0
@@ -250,7 +260,7 @@ class ViewController: UIViewController {
     }
     
     private func moveSnake(_ dX: Int, _ dY: Int) {
-        UIView.animate(withDuration: 0.17) { [unowned self] in
+        UIView.animate(withDuration: moveSnakeDuration) { [unowned self] in
             
             snake.saveLastPositions()
             snake.moveSnake(dX, dY)
@@ -264,6 +274,23 @@ class ViewController: UIViewController {
                                                      y: snake.body[index - 1].lastY ?? 0,
                                                      width: snake.body[index - 1].width,
                                                      height: snake.body[index - 1].height)
+            }
+        }
+    }
+    
+    private func speedUp() {
+        timerTimeInterval *= 0.95
+        moveSnakeDuration *= 0.95
+    }
+    
+    private func speedUpAnimation() {
+        UIView.animate(withDuration: 1.25) { [unowned self] in
+            for index in 1...snakeView.count - 1 {
+                snakeView[index].backgroundColor = .blue
+            }
+        } completion: { [unowned self] (finish) in
+            for index in 1...snakeView.count - 1 {
+                snakeView[index].backgroundColor = .yellow
             }
         }
     }

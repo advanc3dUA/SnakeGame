@@ -7,13 +7,15 @@
 
 import UIKit
 
-class OptionsTableViewController: UITableViewController {
 
-    @IBOutlet weak var resetRecrodButton: UIButton!
+class OptionsTableViewController: UITableViewController {
+    
+    @IBOutlet weak var resetRecordButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        resetRecrodButton.layer.cornerRadius = 10
-        
+        resetRecordButton.layer.cornerRadius = 10
+        resetRecordButton.setTitleColor(UIColor.black, for: .selected)
     }
 
     @IBAction func resetRecordAction(_ sender: UIButton) {
