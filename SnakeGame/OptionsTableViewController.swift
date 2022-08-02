@@ -11,6 +11,7 @@ import UIKit
 class OptionsTableViewController: UITableViewController {
     
     @IBOutlet weak var resetRecordButton: UIButton!
+    @IBOutlet weak var speedUpSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,15 @@ class OptionsTableViewController: UITableViewController {
 
     @IBAction func resetRecordAction(_ sender: UIButton) {
         UserDefaults.standard.setValue(0, forKey: CaseUserDefaults.record)
+    }
+    @IBAction func speedUpSwitch(_ sender: UISwitch) {
+        if speedUpSwitch.isOn {
+            speedUpBool = true
+            print(speedUpBool)
+        } else {
+            speedUpBool = false
+            print(speedUpBool)
+        }
     }
     
     // MARK: - Table view data source

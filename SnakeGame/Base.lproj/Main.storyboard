@@ -307,6 +307,31 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ajQ-bT-CbN" id="WbP-d0-hek">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="speed up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPy-EE-6sa">
+                                                    <rect key="frame" x="35" y="11.5" width="131" height="21"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="131" id="axV-vt-NtT"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tcA-nN-nFA">
+                                                    <rect key="frame" x="319" y="6.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="speedUpSwitch:" destination="1p6-FW-dJ5" eventType="valueChanged" id="IsF-su-MVq"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="tcA-nN-nFA" firstAttribute="centerY" secondItem="WbP-d0-hek" secondAttribute="centerY" id="4Un-x1-qcW"/>
+                                                <constraint firstItem="gPy-EE-6sa" firstAttribute="leading" secondItem="WbP-d0-hek" secondAttribute="leading" constant="35" id="6yo-ff-xhg"/>
+                                                <constraint firstItem="gPy-EE-6sa" firstAttribute="centerY" secondItem="WbP-d0-hek" secondAttribute="centerY" id="VpO-jq-SDI"/>
+                                                <constraint firstItem="tcA-nN-nFA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gPy-EE-6sa" secondAttribute="trailing" constant="8" symbolic="YES" id="ue0-fK-1E1"/>
+                                                <constraint firstAttribute="trailing" secondItem="tcA-nN-nFA" secondAttribute="trailing" constant="46" id="vlE-UQ-jJF"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
@@ -330,6 +355,7 @@
                     <navigationItem key="navigationItem" title="Options" id="IiL-kt-iyb"/>
                     <connections>
                         <outlet property="resetRecordButton" destination="X1c-uD-xF8" id="cCv-Qq-YZ8"/>
+                        <outlet property="speedUpSwitch" destination="tcA-nN-nFA" id="lt9-Mh-hn1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FpB-Q9-0Wp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

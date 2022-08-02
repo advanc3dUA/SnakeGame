@@ -11,6 +11,7 @@ let fieldWidth: Int = 300
 let fieldHeight: Int = 400
 var score = 0
 var playerName = ""
+var speedUpBool = true
 
 enum CurrentDirection {
     case up, down, left, right

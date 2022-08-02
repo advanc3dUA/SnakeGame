@@ -214,7 +214,7 @@ class ViewController: UIViewController {
             self.snakeView.last?.backgroundColor = .yellow
             self.fieldImageView.addSubview(self.snakeView.last!)
             
-            if score % 10 == 0 {
+            if score % 10 == 0 && speedUpBool {
                 self.speedUp()
                 self.speedUpAnimation()
                 print(self.timerTimeInterval, self.moveSnakeDuration)
