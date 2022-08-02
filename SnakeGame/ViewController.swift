@@ -28,6 +28,8 @@ class ViewController: UIViewController {
     let generator = UISelectionFeedbackGenerator()
     let pickUpGenerator = UIImpactFeedbackGenerator(style: .heavy)
     
+    var alert = UIAlertController()
+    
     //MARK:- Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +46,6 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupTimerForMoving(nil)
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,7 +159,10 @@ class ViewController: UIViewController {
     private func finishGame() {
         timer.invalidate()
         gameStatus = .lost
-        snake.saveRecord()
+        if snake.saveRecord() {
+            createAlert()
+        }
+        print(playerName)
         UIView.animate(withDuration: 0.75) { [unowned self] () in
             for button in moveButtons {
                 button.alpha = 0
@@ -265,11 +269,40 @@ class ViewController: UIViewController {
         }
     }
     
+    //MARK:- alert for saving name
+    func createAlert() {
+        alert = UIAlertController(title: "Congratulations", message: "You've beaten the record!", preferredStyle: .alert)
+        alert.addTextField { (textField : UITextField!) in
+            textField.placeholder = "Enter your name"
+            textField.delegate = self
+        }
+        
+        // save button
+        let save = UIAlertAction(title: "Save", style: UIAlertAction.Style.default, handler: { saveAction -> Void in
+            let textField = self.alert.textFields![0] as UITextField
+            guard let name = textField.text else {
+                playerName = ""
+                return
+            }
+            print(name)
+            playerName = name
+        })
+
+        alert.addAction(save)
+        self.present(alert, animated: true, completion: nil)
+    }
     //MARK:- constraints
     func setupConstraints() {
         fieldImageView.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 10).isActive = true
         fieldImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         fieldImageView.widthAnchor.constraint(equalToConstant: CGFloat(fieldWidth)).isActive = true
         fieldImageView.heightAnchor.constraint(equalToConstant: CGFloat(fieldHeight)).isActive = true
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
