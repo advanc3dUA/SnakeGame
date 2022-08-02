@@ -162,7 +162,6 @@ class ViewController: UIViewController {
         if snake.saveRecord() {
             createAlert()
         }
-        print(playerName)
         UIView.animate(withDuration: 0.75) { [unowned self] () in
             for button in moveButtons {
                 button.alpha = 0
@@ -284,10 +283,9 @@ class ViewController: UIViewController {
                 playerName = ""
                 return
             }
-            print(name)
             playerName = name
+            print(playerName)
         })
-
         alert.addAction(save)
         self.present(alert, animated: true, completion: nil)
     }
