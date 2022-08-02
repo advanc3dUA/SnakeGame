@@ -31,6 +31,7 @@ class ViewController: UIViewController {
     //MARK:- Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
     }
     
     override func viewWillAppear(_ animated: Bool) {

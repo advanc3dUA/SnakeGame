@@ -9,9 +9,15 @@ import UIKit
 
 class MenuViewController: UIViewController {
     @IBOutlet weak var recordLabel: UILabel!
+    @IBOutlet weak var newGameButton: UIButton!
+    @IBOutlet weak var optionsButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
+        newGameButton.layer.cornerRadius = 10
+        optionsButton.layer.cornerRadius = 10
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -20,10 +26,9 @@ class MenuViewController: UIViewController {
         let record = UserDefaults.standard.integer(forKey: CaseUserDefaults.record)
         
         if record == 0 {
-            recordLabel.text = "no record currently"
+            recordLabel.text = "no record detected"
         } else {
-            
+            recordLabel.text = String(record)
         }
-        recordLabel.text = String(record)
     }
 }
