@@ -284,7 +284,7 @@ class ViewController: UIViewController {
                 return
             }
             playerName = name
-            print(playerName)
+            snake.savePlayerName(name: playerName)
         })
         alert.addAction(save)
         self.present(alert, animated: true, completion: nil)

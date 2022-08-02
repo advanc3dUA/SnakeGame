@@ -26,9 +26,15 @@ class MenuViewController: UIViewController {
         let record = UserDefaults.standard.integer(forKey: CaseUserDefaults.record)
         
         if record == 0 {
+            recordLabel.numberOfLines = 1
             recordLabel.text = "no record detected"
         } else {
-            recordLabel.text = String(record)
+            recordLabel.numberOfLines = 2
+            //recordLabel.text = String(record) + playerName
+            recordLabel.text = """
+                                \(String(record))
+                                by \(UserDefaults.standard.string(forKey: CaseUserDefaults.playerName)!)
+                                """
         }
     }
 }
