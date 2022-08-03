@@ -24,8 +24,10 @@ class ViewController: UIViewController {
     var timer = Timer()
     var currentdX: Int = 0
     var currentdY: Int = 0
-    var timerTimeInterval = 0.15
-    var moveSnakeDuration = 0.17
+//    var timerTimeInterval = 0.15
+//    var moveSnakeDuration = 0.17
+    var timerTimeInterval = 0.3
+    var moveSnakeDuration = 0.34
     
     let generator = UISelectionFeedbackGenerator()
     let pickUpGenerator = UIImpactFeedbackGenerator(style: .heavy)
@@ -152,7 +154,7 @@ class ViewController: UIViewController {
     
     //MARK:- game methods
     private func setupNewGame() {
-        currentdX = 10
+        currentdX = 20
         currentdY = 0
         scoreLabel.text = "Score: 0"
         snake.setupNewGame()
@@ -163,8 +165,8 @@ class ViewController: UIViewController {
             button.alpha = 1.0
         }
         pauseButton.alpha = 1.0
-        timerTimeInterval = 0.15
-        moveSnakeDuration = 0.17
+        timerTimeInterval = 0.3
+        moveSnakeDuration = 0.34
     }
     
     private func finishGame() {
@@ -173,7 +175,7 @@ class ViewController: UIViewController {
         if snake.saveRecord() {
             createAlert()
         }
-        UIView.animate(withDuration: 0.75) { [unowned self] () in
+        UIView.animate(withDuration: 1) { [unowned self] () in
             for button in moveButtons {
                 button.alpha = 0
             }
@@ -195,7 +197,6 @@ class ViewController: UIViewController {
                                                       y: fieldImageView.bounds.minY + CGFloat(PieceOfSnake.height),
                                                       width: CGFloat(PieceOfSnake.width),
                                                       height: CGFloat(PieceOfSnake.height)))
-        //snakeHeadView.backgroundColor = .black
         snakeHeadView.image = snakeImages["head_right"]
         fieldImageView.addSubview(snakeHeadView)
         snakeView.append(snakeHeadView)
@@ -244,10 +245,10 @@ class ViewController: UIViewController {
             var dY = 0
             
             switch sender?.tag {
-                case 0: dX -= 10
-                case 1: dX += 10
-                case 2: dY -= 10
-                case 3: dY += 10
+                case 0: dX -= 20
+                case 1: dX += 20
+                case 2: dY -= 20
+                case 3: dY += 20
                 case nil: dX += currentdX; dY += currentdY
                 default: return
             }

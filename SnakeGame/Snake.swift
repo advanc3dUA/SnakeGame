@@ -50,10 +50,14 @@ struct PieceOfSnake {
     func getRandomXY(_ fieldWidth: Int, _ fieldHeight: Int) -> (x: Int, y: Int) {
         var randomX = 0, randomY = 0
         repeat {
-//            randomX = Int.random(in: self.width...fieldWidth / 10 - 2) * 10
-//            randomY = Int.random(in: self.height...fieldHeight / 10 - 2) * 10
-            randomX = Int.random(in: PieceOfSnake.width...fieldWidth / 10 - 4) * 10
-            randomY = Int.random(in: PieceOfSnake.height...fieldHeight / 10 - 4) * 10
+            repeat {
+                randomX = Int.random(in: (PieceOfSnake.width / 10)...fieldWidth / 10 - 4) * 10
+            } while randomX % PieceOfSnake.width != 0
+            
+            repeat {
+                randomY = Int.random(in: (PieceOfSnake.height / 10)...fieldHeight / 10 - 4) * 10
+            } while randomY % PieceOfSnake.height != 0
+            
         } while checkPointIsInSnakeBody(snakeBody: snake.body, x: randomX, y: randomY)
         
         return (randomX, randomY)
@@ -158,13 +162,13 @@ class Snake {
     func touchedBorders(_ widthOfBoard: Int, _ heightOfBoard: Int) -> Bool {
         let head = self.body[0]
         
-        if head.x < 10 && currentDirection == .left {
+        if head.x < 20 && currentDirection == .left {
             return true
         }
         if head.x > fieldWidth - 2 * PieceOfSnake.width && currentDirection == .right {
             return true
         }
-        if head.y < 10 && currentDirection == .up {
+        if head.y < 20 && currentDirection == .up {
             return true
         }
         if head.y > fieldHeight - 2 * PieceOfSnake.height && currentDirection == .down {
