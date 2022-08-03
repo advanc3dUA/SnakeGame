@@ -41,8 +41,8 @@ struct PieceOfSnake {
     }
     var lastX: Int?
     var lastY: Int?
-    let width: Int = 10
-    let height: Int = 10
+    let width: Int = 20
+    let height: Int = 20
     var direction: CurrentDirection?
     
     

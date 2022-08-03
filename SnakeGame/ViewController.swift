@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     
     var fieldImageView = UIImageView()
     
-    var snakeView: [UIView] = []
+    var snakeView: [UIImageView] = []
     
     var newPieceView = UIView()
     
@@ -196,7 +196,7 @@ class ViewController: UIViewController {
                                                  width: CGFloat(newPiece.width),
                                                  height: CGFloat(newPiece.height)))
         //snakeHeadView.backgroundColor = .black
-        snakeHeadView.image = snakeImages["head_down"]
+        snakeHeadView.image = snakeImages["head_right"]
         fieldImageView.addSubview(snakeHeadView)
         snakeView.append(snakeHeadView)
     }
@@ -215,7 +215,7 @@ class ViewController: UIViewController {
         UIView.animate(withDuration: 1) {
             newPieceView.backgroundColor = .red
             newPieceView.alpha = 0.1
-            self.snakeView.append(UIView(frame: CGRect(x: newPieceView.center.x - CGFloat(newPiece.width / 2),
+            self.snakeView.append(UIImageView(frame: CGRect(x: newPieceView.center.x - CGFloat(newPiece.width / 2),
                                                        y: newPieceView.center.y - CGFloat(newPiece.height / 2),
                                                        width: CGFloat(newPiece.width),
                                                        height: CGFloat(newPiece.height))))
@@ -256,6 +256,8 @@ class ViewController: UIViewController {
             
             moveSnake(dX, dY)
             
+            rotateHead(currentDirection: snake.body[0].direction!)
+            
             if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
                 finishGame()
             }
@@ -269,20 +271,29 @@ class ViewController: UIViewController {
     
     private func moveSnake(_ dX: Int, _ dY: Int) {
         UIView.animate(withDuration: moveSnakeDuration) { [unowned self] in
-            
+
             snake.saveLastPositions()
             snake.moveSnake(dX, dY)
             currentDirection = snake.checkCurrentDirection()
 
             snakeView[0].center.x += CGFloat(dX)
             snakeView[0].center.y += CGFloat(dY)
-            
+
             for index in 1..<snake.body.count {
                 snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
                                                      y: snake.body[index - 1].lastY ?? 0,
                                                      width: snake.body[index - 1].width,
                                                      height: snake.body[index - 1].height)
             }
+        }
+    }
+    
+    private func rotateHead(currentDirection: CurrentDirection) {
+        switch currentDirection {
+        case .right: snakeView[0].image = snakeImages["head_right"]
+        case .left: snakeView[0].image = snakeImages["head_left"]
+        case .up: snakeView[0].image = snakeImages["head_up"]
+        case .down: snakeView[0].image = snakeImages["head_down"]
         }
     }
     
