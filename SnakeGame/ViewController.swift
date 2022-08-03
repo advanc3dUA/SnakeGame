@@ -27,7 +27,7 @@ class ViewController: UIViewController {
 //    var timerTimeInterval = 0.15
 //    var moveSnakeDuration = 0.17
     var timerTimeInterval = 0.3
-    var moveSnakeDuration = 0.34
+    var moveSnakeDuration = 0.4
     
     let generator = UISelectionFeedbackGenerator()
     let pickUpGenerator = UIImpactFeedbackGenerator(style: .heavy)
@@ -50,6 +50,10 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         createField(fieldWidth, fieldHeight)
+        
+        restartButton.layer.cornerRadius = 10
+        pauseButton.layer.cornerRadius = 10
+        
         setupConstraints()
         setupNewGame()
     }
@@ -145,10 +149,10 @@ class ViewController: UIViewController {
                                                    width: 0,
                                                    height: 0))
         fieldImageView.translatesAutoresizingMaskIntoConstraints = false
-        fieldImageView.backgroundColor = .lightGray
+        fieldImageView.backgroundColor = .white
         fieldImageView.layer.masksToBounds = false
         fieldImageView.layer.borderWidth = CGFloat(PieceOfSnake.width)
-        fieldImageView.layer.borderColor = UIColor.red.cgColor
+        fieldImageView.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(fieldImageView)
     }
     
@@ -166,7 +170,7 @@ class ViewController: UIViewController {
         }
         pauseButton.alpha = 1.0
         timerTimeInterval = 0.3
-        moveSnakeDuration = 0.34
+        moveSnakeDuration = 0.4
     }
     
     private func finishGame() {
@@ -268,6 +272,7 @@ class ViewController: UIViewController {
             }
             
         })
+        RunLoop.current.add(timer, forMode: .common)
     }
     
     private func moveSnake(_ dX: Int, _ dY: Int) {
