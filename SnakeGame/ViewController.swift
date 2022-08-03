@@ -32,6 +32,13 @@ class ViewController: UIViewController {
     
     var alert = UIAlertController()
     
+    let snakeImages: [String : UIImage] = [
+                                            "head_down": UIImage(named: "head_down")!,
+                                            "head_up": UIImage(named: "head_up")!,
+                                            "head_left": UIImage(named: "head_left")!,
+                                            "head_right": UIImage(named: "head_right")!
+    ]
+    
     //MARK:- Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,11 +191,12 @@ class ViewController: UIViewController {
     private func createSnake() {
         snake.createSnake()
 
-        let snakeHeadView = UIView(frame: CGRect(x: fieldImageView.bounds.minX + CGFloat(newPiece.width),
+        let snakeHeadView = UIImageView(frame: CGRect(x: fieldImageView.bounds.minX + CGFloat(newPiece.width),
                                                  y: fieldImageView.bounds.minY + CGFloat(newPiece.height),
                                                  width: CGFloat(newPiece.width),
                                                  height: CGFloat(newPiece.height)))
-        snakeHeadView.backgroundColor = .black
+        //snakeHeadView.backgroundColor = .black
+        snakeHeadView.image = snakeImages["head_down"]
         fieldImageView.addSubview(snakeHeadView)
         snakeView.append(snakeHeadView)
     }

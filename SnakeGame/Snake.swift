@@ -27,12 +27,23 @@ enum GameStatus {
 }
 
 struct PieceOfSnake {
-    var x: Int
-    var y: Int
+    var x: Int {
+        didSet {
+            if (x - oldValue) > 0 { direction = .right }
+            if (x - oldValue) < 0 { direction = .left }
+        }
+    }
+    var y: Int {
+        didSet {
+            if (y - oldValue) > 0 { direction = .down }
+            if (y - oldValue) < 0 { direction = .up }
+        }
+    }
     var lastX: Int?
     var lastY: Int?
     let width: Int = 10
     let height: Int = 10
+    var direction: CurrentDirection?
     
     
     //MARK:- new piece of snake methods
