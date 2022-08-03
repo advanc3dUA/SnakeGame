@@ -145,7 +145,7 @@ class ViewController: UIViewController {
         fieldImageView.translatesAutoresizingMaskIntoConstraints = false
         fieldImageView.backgroundColor = .lightGray
         fieldImageView.layer.masksToBounds = false
-        fieldImageView.layer.borderWidth = 10
+        fieldImageView.layer.borderWidth = CGFloat(PieceOfSnake.width)
         fieldImageView.layer.borderColor = UIColor.red.cgColor
         view.addSubview(fieldImageView)
     }
@@ -191,10 +191,10 @@ class ViewController: UIViewController {
     private func createSnake() {
         snake.createSnake()
 
-        let snakeHeadView = UIImageView(frame: CGRect(x: fieldImageView.bounds.minX + CGFloat(newPiece.width),
-                                                 y: fieldImageView.bounds.minY + CGFloat(newPiece.height),
-                                                 width: CGFloat(newPiece.width),
-                                                 height: CGFloat(newPiece.height)))
+        let snakeHeadView = UIImageView(frame: CGRect(x: fieldImageView.bounds.minX + CGFloat(PieceOfSnake.width),
+                                                      y: fieldImageView.bounds.minY + CGFloat(PieceOfSnake.height),
+                                                      width: CGFloat(PieceOfSnake.width),
+                                                      height: CGFloat(PieceOfSnake.height)))
         //snakeHeadView.backgroundColor = .black
         snakeHeadView.image = snakeImages["head_right"]
         fieldImageView.addSubview(snakeHeadView)
@@ -204,7 +204,7 @@ class ViewController: UIViewController {
     //MARK:- new piece methods
     private func createNewPieceOfSnakeView() {
         newPiece = newPiece.createNewPieceOfSnake()
-        newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: newPiece.width, height: newPiece.height)
+        newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: PieceOfSnake.width, height: PieceOfSnake.height)
         newPieceView.backgroundColor = .black
         fieldImageView.addSubview(newPieceView)
     }
@@ -215,10 +215,10 @@ class ViewController: UIViewController {
         UIView.animate(withDuration: 1) {
             newPieceView.backgroundColor = .red
             newPieceView.alpha = 0.1
-            self.snakeView.append(UIImageView(frame: CGRect(x: newPieceView.center.x - CGFloat(newPiece.width / 2),
-                                                       y: newPieceView.center.y - CGFloat(newPiece.height / 2),
-                                                       width: CGFloat(newPiece.width),
-                                                       height: CGFloat(newPiece.height))))
+            self.snakeView.append(UIImageView(frame: CGRect(x: newPieceView.center.x - CGFloat(PieceOfSnake.width / 2),
+                                                            y: newPieceView.center.y - CGFloat(PieceOfSnake.height / 2),
+                                                            width: CGFloat(PieceOfSnake.width),
+                                                            height: CGFloat(PieceOfSnake.height))))
             self.snakeView.last?.backgroundColor = .yellow
             self.fieldImageView.addSubview(self.snakeView.last!)
             
@@ -282,8 +282,8 @@ class ViewController: UIViewController {
             for index in 1..<snake.body.count {
                 snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
                                                      y: snake.body[index - 1].lastY ?? 0,
-                                                     width: snake.body[index - 1].width,
-                                                     height: snake.body[index - 1].height)
+                                                     width: PieceOfSnake.width,
+                                                     height: PieceOfSnake.height)
             }
         }
     }

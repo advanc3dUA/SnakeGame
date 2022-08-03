@@ -41,8 +41,8 @@ struct PieceOfSnake {
     }
     var lastX: Int?
     var lastY: Int?
-    let width: Int = 20
-    let height: Int = 20
+    static let width: Int = 20
+    static let height: Int = 20
     var direction: CurrentDirection?
     
     
@@ -50,8 +50,10 @@ struct PieceOfSnake {
     func getRandomXY(_ fieldWidth: Int, _ fieldHeight: Int) -> (x: Int, y: Int) {
         var randomX = 0, randomY = 0
         repeat {
-            randomX = Int.random(in: self.width...fieldWidth / 10 - 2) * 10
-            randomY = Int.random(in: self.height...fieldHeight / 10 - 2) * 10
+//            randomX = Int.random(in: self.width...fieldWidth / 10 - 2) * 10
+//            randomY = Int.random(in: self.height...fieldHeight / 10 - 2) * 10
+            randomX = Int.random(in: PieceOfSnake.width...fieldWidth / 10 - 4) * 10
+            randomY = Int.random(in: PieceOfSnake.height...fieldHeight / 10 - 4) * 10
         } while checkPointIsInSnakeBody(snakeBody: snake.body, x: randomX, y: randomY)
         
         return (randomX, randomY)
@@ -91,7 +93,7 @@ class Snake {
     }
     
     func createSnake() {
-        let snakeHead = PieceOfSnake(x: newPiece.width, y: newPiece.height)
+        let snakeHead = PieceOfSnake(x: PieceOfSnake.width, y: PieceOfSnake.height)
         snake.addNewPiece(newPiece: snakeHead)
     }
     
@@ -159,13 +161,13 @@ class Snake {
         if head.x < 10 && currentDirection == .left {
             return true
         }
-        if head.x > fieldWidth - 2 * newPiece.width && currentDirection == .right {
+        if head.x > fieldWidth - 2 * PieceOfSnake.width && currentDirection == .right {
             return true
         }
         if head.y < 10 && currentDirection == .up {
             return true
         }
-        if head.y > fieldHeight - 2 * newPiece.height && currentDirection == .down {
+        if head.y > fieldHeight - 2 * PieceOfSnake.height && currentDirection == .down {
             return true
         }
         return false
