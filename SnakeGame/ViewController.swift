@@ -9,6 +9,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    enum ButtonClicked {
+        static var button: CurrentDirection = .right
+    }
+    
     //MARK:- Variables
     @IBOutlet var moveButtons: [UIButton]!
     @IBOutlet weak var restartButton: UIButton!
@@ -20,6 +24,8 @@ class ViewController: UIViewController {
     var snakeView: [UIImageView] = []
     
     var newPieceView = UIView()
+    
+    var displayLink = CADisplayLink()
     
     var timer = Timer()
     var currentdX: Int = 0
@@ -56,7 +62,8 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupTimerForMoving(nil)
+        //setupTimerForMoving(nil)
+        createDisplayLink()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,8 +80,11 @@ class ViewController: UIViewController {
         guard gameStatus == .running else { return }
         if currentDirection == .up || currentDirection == .down {
             addFeedbackForMovingButtons()
-            timer.invalidate()
-            setupTimerForMoving(sender)
+            ButtonClicked.button = .right
+            displayLink.invalidate()
+            createDisplayLink()
+//            timer.invalidate()
+//            setupTimerForMoving(sender)
         }
     }
 
@@ -82,16 +92,22 @@ class ViewController: UIViewController {
         guard gameStatus == .running else { return }
         if currentDirection == .up || currentDirection == .down {
             addFeedbackForMovingButtons()
-            timer.invalidate()
-            setupTimerForMoving(sender)
+            ButtonClicked.button = .left
+            displayLink.invalidate()
+            createDisplayLink()
+//            timer.invalidate()
+//            setupTimerForMoving(sender)
         }
     }
     @IBAction func moveUpButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
         if currentDirection == .left || currentDirection == .right {
             addFeedbackForMovingButtons()
-            timer.invalidate()
-            setupTimerForMoving(sender)
+            ButtonClicked.button = .up
+            displayLink.invalidate()
+            createDisplayLink()
+//            timer.invalidate()
+//            setupTimerForMoving(sender)
         }
     }
     
@@ -99,8 +115,11 @@ class ViewController: UIViewController {
         guard gameStatus == .running else { return }
         if currentDirection == .left || currentDirection == .right {
             addFeedbackForMovingButtons()
-            timer.invalidate()
-            setupTimerForMoving(sender)
+            ButtonClicked.button = .down
+            displayLink.invalidate()
+            createDisplayLink()
+//            timer.invalidate()
+//            setupTimerForMoving(sender)
         }
     }
     
@@ -108,7 +127,7 @@ class ViewController: UIViewController {
         finishGame()
         snake.eraseBody()
         setupNewGame()
-        setupTimerForMoving(nil)
+        //setupTimerForMoving(nil)
     }
     
     @IBAction func pauseButton(_ sender: UIButton) {
@@ -121,7 +140,7 @@ class ViewController: UIViewController {
             pauseButton.backgroundColor = .yellow
             restartButton.isHidden = true
         } else {
-            setupTimerForMoving(nil)
+            //setupTimerForMoving(nil)
             for button in moveButtons {
                 button.isHidden = false
             }
@@ -237,7 +256,48 @@ class ViewController: UIViewController {
 
     }
     
-    //MARK:- moving snake    
+    //MARK:- moving snake
+    private func createDisplayLink() {
+        displayLink = CADisplayLink(target: self, selector: #selector(step))
+        displayLink.add(to: .current, forMode: .default)
+        
+        print("LOG ", displayLink.targetTimestamp)
+//        print("LOG: ", displayLink.preferredFramesPerSecond)
+//        let actualFramesPerSecond = 1 / (displayLink.targetTimestamp - displayLink.timestamp)
+//        print(actualFramesPerSecond)
+        
+    }
+    
+    @objc func stepTest() {
+        print(ButtonClicked.button)
+    }
+    
+    @objc private func step() {
+        var dX = 0
+        var dY = 0
+        
+        switch ButtonClicked.button {
+        case .left: dX -= 20
+        case .right: dX += 20
+        case .up: dY -= 20
+        case .down: dY += 20
+        }
+        currentdX = dX
+        currentdY = dY
+        
+        moveSnake(dX, dY)
+        
+        rotateHead(currentDirection: snake.body[0].direction!)
+        
+        if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
+            finishGame()
+        }
+        
+        if snake.pickUpNewPiece(newPiece) {
+            pickupNewPiece(newPieceView)
+        }
+    }
+    
     private func setupTimerForMoving(_ sender: UIButton?) {
         timer = Timer.scheduledTimer(withTimeInterval: timerTimeInterval, repeats: true, block: { [unowned self] (Timer) in
             
