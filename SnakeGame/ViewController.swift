@@ -21,11 +21,9 @@ class ViewController: UIViewController {
     
     var newPieceView = UIView()
     
-    var timer = Timer()
+    var timer: Timer?
     var currentdX: Int = 0
     var currentdY: Int = 0
-//    var timerTimeInterval = 0.15
-//    var moveSnakeDuration = 0.17
     var timerTimeInterval = 0.3
     var moveSnakeDuration = 0.4
     
@@ -77,7 +75,7 @@ class ViewController: UIViewController {
         guard gameStatus == .running else { return }
         if currentDirection == .up || currentDirection == .down {
             addFeedbackForMovingButtons()
-            timer.invalidate()
+            cancelTimer()
             setupTimerForMoving(sender)
         }
     }
@@ -86,7 +84,7 @@ class ViewController: UIViewController {
         guard gameStatus == .running else { return }
         if currentDirection == .up || currentDirection == .down {
             addFeedbackForMovingButtons()
-            timer.invalidate()
+            cancelTimer()
             setupTimerForMoving(sender)
         }
     }
@@ -94,7 +92,7 @@ class ViewController: UIViewController {
         guard gameStatus == .running else { return }
         if currentDirection == .left || currentDirection == .right {
             addFeedbackForMovingButtons()
-            timer.invalidate()
+            cancelTimer()
             setupTimerForMoving(sender)
         }
     }
@@ -103,7 +101,7 @@ class ViewController: UIViewController {
         guard gameStatus == .running else { return }
         if currentDirection == .left || currentDirection == .right {
             addFeedbackForMovingButtons()
-            timer.invalidate()
+            cancelTimer()
             setupTimerForMoving(sender)
         }
     }
@@ -116,8 +114,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func pauseButton(_ sender: UIButton) {
+        guard let timer = timer else { return }
         if timer.isValid {
-            timer.invalidate()
+            cancelTimer()
             for button in moveButtons {
                 button.isHidden = true
             }
@@ -174,7 +173,7 @@ class ViewController: UIViewController {
     }
     
     private func finishGame() {
-        timer.invalidate()
+        cancelTimer()
         gameStatus = .lost
         if snake.saveRecord() {
             createAlert()
@@ -272,7 +271,12 @@ class ViewController: UIViewController {
             }
             
         })
-        RunLoop.current.add(timer, forMode: .common)
+        RunLoop.current.add(timer!, forMode: .common)
+    }
+    
+    private func cancelTimer() {
+        timer?.invalidate()
+        timer = nil
     }
     
     private func moveSnake(_ dX: Int, _ dY: Int) {
