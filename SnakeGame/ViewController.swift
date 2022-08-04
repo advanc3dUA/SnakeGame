@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     
     var snakeView: [UIImageView] = []
     
-    var newPieceView = UIView()
+    var newPieceView = UIImageView()
     
     var timer: Timer?
     var currentdX: Int = 0
@@ -40,12 +40,17 @@ class ViewController: UIViewController {
                                             "head_up": UIImage(named: "head_up")!,
                                             "head_left": UIImage(named: "head_left")!,
                                             "head_right": UIImage(named: "head_right")!,
-                                            "body_bottomleft": UIImage(named: "body_bottomleft")!,
-                                            "body_bottomright": UIImage(named: "body_bottomright")!,
+//                                            "body_bottomleft": UIImage(named: "body_bottomleft")!,
+//                                            "body_bottomright": UIImage(named: "body_bottomright")!,
                                             "body_horizontal": UIImage(named: "body_horizontal")!,
-                                            "body_topleft": UIImage(named: "body_topleft")!,
-                                            "body_topright": UIImage(named: "body_topright")!,
-                                            "body_vertical": UIImage(named: "body_vertical")!
+//                                            "body_topleft": UIImage(named: "body_topleft")!,
+//                                            "body_topright": UIImage(named: "body_topright")!,
+                                            "body_vertical": UIImage(named: "body_vertical")!,
+                                            "tail_down": UIImage(named: "tail_down")!,
+                                            "tail_up": UIImage(named: "tail_up")!,
+                                            "tail_left": UIImage(named: "tail_left")!,
+                                            "tail_right": UIImage(named: "tail_right")!,
+                                            "apple": UIImage(named: "apple")!
         
     ]
     
@@ -218,7 +223,7 @@ class ViewController: UIViewController {
     private func createNewPieceOfSnakeView() {
         newPiece = newPiece.createNewPieceOfSnake()
         newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: PieceOfSnake.width, height: PieceOfSnake.height)
-        newPieceView.backgroundColor = .black
+        newPieceView.image = snakeImages["apple"]
         fieldImageView.addSubview(newPieceView)
     }
     
@@ -243,6 +248,7 @@ class ViewController: UIViewController {
             newPieceView.removeFromSuperview()
             self.createNewPieceOfSnakeView()
         } completion: { (_) in
+            newPieceView.backgroundColor = nil
             newPieceView.alpha = 1.0
         }
 
@@ -270,6 +276,7 @@ class ViewController: UIViewController {
             
             rotateHead(snake.body)
             rotateBody(snake.body)
+            rotateTale(snake.body)
             
             
             if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
@@ -320,51 +327,31 @@ class ViewController: UIViewController {
     }
     
 
-//    fileprivate func rotateBody(_ body: [PieceOfSnake]) {
-//        guard body.count > 1 else { return }
-//        for index in 0...body.count - 2 {
-//            guard let bodyPartDirection = body[index].direction else { return }
-//            guard let nextPartDirection = body[index + 1].direction else { return }
-//            switch (bodyPartDirection, nextPartDirection) {
-//            case (.down, .right): snakeView[index + 1].image = snakeImages["body_bottomleft"]
-//            case (.left, .up): snakeView[index + 1].image = snakeImages["body_bottomleft"]
-//            case (.right, .up): snakeView[index + 1].image = snakeImages["body_bottomright"]
-//            case (.down, .left): snakeView[index + 1].image = snakeImages["body_bottomright"]
-//            case (.up, .right): snakeView[index + 1].image = snakeImages["body_topleft"]
-//            case (.left, .down): snakeView[index + 1].image = snakeImages["body_topleft"]
-//            case (.right, .down): snakeView[index + 1].image = snakeImages["body_topright"]
-//            case (.up, .left): snakeView[index + 1].image = snakeImages["body_topright"]
-//            case (.left, _): snakeView[index + 1].image = snakeImages["body_horizontal"]
-//            case (.right, _): snakeView[index + 1].image = snakeImages["body_horizontal"]
-//            case (.up, _): snakeView[index + 1].image = snakeImages["body_vertical"]
-//            case (.down, _): snakeView[index + 1].image = snakeImages["body_vertical"]
-//            }
-//        }
-//    }
-    
     fileprivate func rotateBody(_ body: [PieceOfSnake]) {
         guard body.count > 2 else { return }
-        for index in 1...body.count - 2 {
-            guard let previousPartDirection = body[index - 1].direction else { return }
+        for index in 1...body.endIndex - 2 {
             guard let bodyPartDirection = body[index].direction else { return }
-            guard let nextPartDirection = body[index + 1].direction else { return }
-            switch (previousPartDirection, bodyPartDirection, nextPartDirection) {
-            case (.down, .down, .right): snakeView[index].image = snakeImages["body_bottomleft"]
-            case (.left, .left, .up): snakeView[index].image = snakeImages["body_bottomleft"]
-            case (.right, .right, .up): snakeView[index].image = snakeImages["body_bottomright"]
-            case (.down, .down, .left): snakeView[index].image = snakeImages["body_bottomright"]
-            case (.up, .up, .right): snakeView[index].image = snakeImages["body_topleft"]
-            case (.left, .left, .down): snakeView[index].image = snakeImages["body_topleft"]
-            case (.right, .right, .down): snakeView[index].image = snakeImages["body_topright"]
-            case (.up, .up, .left): snakeView[index].image = snakeImages["body_topright"]
-            case (.left, .left, _): snakeView[index].image = snakeImages["body_horizontal"]
-            case (.right, .right, _): snakeView[index].image = snakeImages["body_horizontal"]
-            case (.up, .up, _): snakeView[index].image = snakeImages["body_vertical"]
-            case (.down, .down, _): snakeView[index].image = snakeImages["body_vertical"]
-            default: return
+            guard let previousPartDirection = body[index - 1].direction else { return }
+            switch (bodyPartDirection, previousPartDirection) {
+            case (.left, _): snakeView[index].image = snakeImages["body_horizontal"]
+            case (.right, _): snakeView[index].image = snakeImages["body_horizontal"]
+            case (.up, _): snakeView[index].image = snakeImages["body_vertical"]
+            case (.down, _): snakeView[index].image = snakeImages["body_vertical"]
             }
         }
     }
+    
+    fileprivate func rotateTale(_ body: [PieceOfSnake]) {
+        guard body.count > 1 else { return }
+        guard let taleDirection = body[body.endIndex - 1].direction else { return }
+        switch taleDirection {
+        case .left: snakeView[body.endIndex - 1].image = snakeImages["tail_right"]
+        case .right: snakeView[body.endIndex - 1].image = snakeImages["tail_left"]
+        case .down: snakeView[body.endIndex - 1].image = snakeImages["tail_up"]
+        case .up: snakeView[body.endIndex - 1].image = snakeImages["tail_down"]
+        }
+    }
+    
     
     private func speedUp() {
         timerTimeInterval *= 0.95
