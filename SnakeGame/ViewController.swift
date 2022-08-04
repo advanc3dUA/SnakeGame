@@ -25,7 +25,9 @@ class ViewController: UIViewController {
     
     var newPieceView = UIView()
     
-    var displayLink = CADisplayLink()
+    let animationDuration = 0.1
+    var displayLink: CADisplayLink?
+    var startTime: CFTimeInterval?, endTime: CFTimeInterval?
     
     var timer = Timer()
     var currentdX: Int = 0
@@ -81,7 +83,7 @@ class ViewController: UIViewController {
         if currentDirection == .up || currentDirection == .down {
             addFeedbackForMovingButtons()
             ButtonClicked.button = .right
-            displayLink.invalidate()
+            displayLink?.invalidate()
             createDisplayLink()
 //            timer.invalidate()
 //            setupTimerForMoving(sender)
@@ -93,7 +95,7 @@ class ViewController: UIViewController {
         if currentDirection == .up || currentDirection == .down {
             addFeedbackForMovingButtons()
             ButtonClicked.button = .left
-            displayLink.invalidate()
+            displayLink?.invalidate()
             createDisplayLink()
 //            timer.invalidate()
 //            setupTimerForMoving(sender)
@@ -104,7 +106,7 @@ class ViewController: UIViewController {
         if currentDirection == .left || currentDirection == .right {
             addFeedbackForMovingButtons()
             ButtonClicked.button = .up
-            displayLink.invalidate()
+            displayLink?.invalidate()
             createDisplayLink()
 //            timer.invalidate()
 //            setupTimerForMoving(sender)
@@ -116,7 +118,7 @@ class ViewController: UIViewController {
         if currentDirection == .left || currentDirection == .right {
             addFeedbackForMovingButtons()
             ButtonClicked.button = .down
-            displayLink.invalidate()
+            displayLink?.invalidate()
             createDisplayLink()
 //            timer.invalidate()
 //            setupTimerForMoving(sender)
@@ -258,21 +260,38 @@ class ViewController: UIViewController {
     
     //MARK:- moving snake
     private func createDisplayLink() {
+        startTime = CACurrentMediaTime()
+        endTime = animationDuration + startTime!
         displayLink = CADisplayLink(target: self, selector: #selector(step))
-        displayLink.add(to: .current, forMode: .default)
-        
-        print("LOG ", displayLink.targetTimestamp)
-//        print("LOG: ", displayLink.preferredFramesPerSecond)
-//        let actualFramesPerSecond = 1 / (displayLink.targetTimestamp - displayLink.timestamp)
-//        print(actualFramesPerSecond)
+        displayLink?.add(to: RunLoop.main, forMode: .common)
         
     }
     
     @objc func stepTest() {
         print(ButtonClicked.button)
+        
+        guard let endTime = endTime, let startTime = startTime else { return }
+        
+        let now = CACurrentMediaTime()
+        
+        print(now, endTime)
+         
+         if now >= endTime {
+           displayLink?.isPaused = true
+           displayLink?.invalidate()
+         }
     }
     
     @objc private func step() {
+        guard let endTime = endTime, let startTime = startTime else { return }
+        
+        let now = CACurrentMediaTime()
+         
+         if now >= endTime {
+           displayLink?.isPaused = true
+           displayLink?.invalidate()
+         }
+        
         var dX = 0
         var dY = 0
         
