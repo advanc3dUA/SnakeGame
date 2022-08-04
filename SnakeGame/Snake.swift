@@ -10,6 +10,7 @@ import Foundation
 let fieldWidth: Int = 300
 let fieldHeight: Int = 400
 var score = 0
+var level = 1
 var playerName = ""
 var speedUpBool = true
 
@@ -90,6 +91,7 @@ class Snake {
     //MARK:- game methods
     func setupNewGame() {
         score = 0
+        level = 1
         playerName = ""
         newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
         currentDirection = CurrentDirection.right

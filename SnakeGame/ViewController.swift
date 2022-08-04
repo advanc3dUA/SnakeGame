@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var levelLabel: UILabel!
     
     var fieldImageView = UIImageView()
     
@@ -66,6 +67,10 @@ class ViewController: UIViewController {
         
         restartButton.layer.cornerRadius = 10
         pauseButton.layer.cornerRadius = 10
+        levelLabel.clipsToBounds = true
+        scoreLabel.clipsToBounds = true
+        levelLabel.layer.cornerRadius = 10
+        scoreLabel.layer.cornerRadius = 10
         
         setupConstraints()
         setupNewGame()
@@ -174,6 +179,7 @@ class ViewController: UIViewController {
         currentdX = 20
         currentdY = 0
         scoreLabel.text = "Score: 0"
+        levelLabel.text = "Level: 1"
         snake.setupNewGame()
         snakeView.removeAll()
         createSnake()
@@ -241,8 +247,7 @@ class ViewController: UIViewController {
             
             if score % 10 == 0 && speedUpBool {
                 self.speedUp()
-                self.speedUpAnimation()
-                print(self.timerTimeInterval, self.moveSnakeDuration)
+                self.goingNextLevel()
             }
             
             newPieceView.removeFromSuperview()
@@ -252,6 +257,12 @@ class ViewController: UIViewController {
             newPieceView.alpha = 1.0
         }
 
+    }
+    
+    private func goingNextLevel() {
+        level += 1
+        self.levelLabel.text = "Level: " + String(level)
+        levelLabel.flash(numberOfFlashes: 4)
     }
     
     //MARK:- moving snake
@@ -358,18 +369,6 @@ class ViewController: UIViewController {
         moveSnakeDuration *= 0.95
     }
     
-    private func speedUpAnimation() {
-        UIView.animate(withDuration: 1.25) { [unowned self] in
-            for index in 1...snakeView.count - 1 {
-                snakeView[index].backgroundColor = .blue
-            }
-        } completion: { [unowned self] (finish) in
-            for index in 1...snakeView.count - 1 {
-                snakeView[index].backgroundColor = nil
-            }
-        }
-    }
-    
     //MARK:- alert for saving name
     func createAlert() {
         alert = UIAlertController(title: "Congratulations", message: "You've beaten the record!", preferredStyle: .alert)
@@ -393,7 +392,7 @@ class ViewController: UIViewController {
     }
     //MARK:- constraints
     func setupConstraints() {
-        fieldImageView.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 10).isActive = true
+        fieldImageView.topAnchor.constraint(equalTo: levelLabel.bottomAnchor, constant: 20).isActive = true
         fieldImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         fieldImageView.widthAnchor.constraint(equalToConstant: CGFloat(fieldWidth)).isActive = true
         fieldImageView.heightAnchor.constraint(equalToConstant: CGFloat(fieldHeight)).isActive = true
@@ -406,3 +405,16 @@ extension ViewController: UITextFieldDelegate {
         return true
     }
 }
+
+extension UIView {
+        func flash(numberOfFlashes: Float) {
+           let flash = CABasicAnimation(keyPath: "opacity")
+           flash.duration = 0.2
+           flash.fromValue = 1
+           flash.toValue = 0.1
+           flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+           flash.autoreverses = true
+           flash.repeatCount = numberOfFlashes
+           layer.add(flash, forKey: nil)
+       }
+ }

@@ -163,7 +163,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal">
-                                    <imageReference key="image" image="repeat.1" catalog="system" symbolScale="large"/>
+                                    <imageReference key="image" image="repeat" catalog="system" symbolScale="large"/>
                                 </state>
                                 <connections>
                                     <action selector="restartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wkz-O8-cIJ"/>
@@ -201,10 +201,17 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UWe-Ac-uGp">
-                                <rect key="frame" x="153" y="25" width="108" height="24"/>
+                                <rect key="frame" x="153" y="7" width="108" height="24"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <color key="textColor" systemColor="systemPinkColor"/>
+                                <color key="textColor" systemColor="systemBlueColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Level: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lue-B1-3re">
+                                <rect key="frame" x="153" y="34" width="108" height="24"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" systemColor="systemBlueColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -213,28 +220,33 @@
                         <constraints>
                             <constraint firstItem="XjA-E3-ziQ" firstAttribute="height" secondItem="eVV-Jt-g7a" secondAttribute="height" id="6fV-Tg-cbf"/>
                             <constraint firstItem="UWe-Ac-uGp" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.029703" id="8n0-PT-bTn"/>
+                            <constraint firstItem="lue-B1-3re" firstAttribute="height" secondItem="UWe-Ac-uGp" secondAttribute="height" id="CQJ-gQ-n9R"/>
                             <constraint firstItem="RIO-2s-Rtf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="7" id="DrB-UT-Q8V"/>
                             <constraint firstItem="XjA-E3-ziQ" firstAttribute="width" secondItem="eVV-Jt-g7a" secondAttribute="width" id="F1J-8M-1sQ"/>
+                            <constraint firstItem="lue-B1-3re" firstAttribute="width" secondItem="UWe-Ac-uGp" secondAttribute="width" id="ItB-Uk-YRI"/>
                             <constraint firstItem="66a-a2-mQM" firstAttribute="leading" secondItem="eVV-Jt-g7a" secondAttribute="trailing" constant="19" id="KFB-yX-XUw"/>
                             <constraint firstItem="YMO-Sd-Fwl" firstAttribute="width" secondItem="66a-a2-mQM" secondAttribute="width" id="L9d-kI-cwO"/>
-                            <constraint firstItem="UWe-Ac-uGp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="Lxv-T1-knN"/>
+                            <constraint firstItem="UWe-Ac-uGp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="7" id="Lxv-T1-knN"/>
                             <constraint firstItem="vrE-jZ-Gs6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="7" id="Nag-oI-T0R"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eVV-Jt-g7a" secondAttribute="bottom" constant="40" id="OEa-a3-AgA"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="XjA-E3-ziQ" secondAttribute="bottom" constant="40" id="Rte-Cu-aSr"/>
                             <constraint firstItem="YMO-Sd-Fwl" firstAttribute="centerX" secondItem="66a-a2-mQM" secondAttribute="centerX" id="TDc-wF-eiI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vrE-jZ-Gs6" secondAttribute="trailing" constant="56" id="Te6-Mf-Lxa"/>
                             <constraint firstItem="UWe-Ac-uGp" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ckk-sw-IRB"/>
+                            <constraint firstItem="lue-B1-3re" firstAttribute="top" secondItem="UWe-Ac-uGp" secondAttribute="bottom" constant="3" id="dZs-rd-k4u"/>
                             <constraint firstItem="XjA-E3-ziQ" firstAttribute="leading" secondItem="66a-a2-mQM" secondAttribute="trailing" constant="19" id="eox-jq-ejb"/>
                             <constraint firstItem="YMO-Sd-Fwl" firstAttribute="height" secondItem="66a-a2-mQM" secondAttribute="height" id="f7I-Ob-QM9"/>
                             <constraint firstItem="RIO-2s-Rtf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="56" id="ivB-wv-EIt"/>
                             <constraint firstItem="UWe-Ac-uGp" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.309179" constant="-20.000105999999988" id="lWm-R9-4Ku"/>
                             <constraint firstItem="66a-a2-mQM" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="obr-Up-JT4"/>
                             <constraint firstItem="66a-a2-mQM" firstAttribute="top" secondItem="YMO-Sd-Fwl" secondAttribute="bottom" constant="15" id="rOv-3s-OkW"/>
+                            <constraint firstItem="lue-B1-3re" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="xJk-fl-C1w"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="66a-a2-mQM" secondAttribute="bottom" constant="40" id="yHM-g1-qFd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="y5V-5n-xHI"/>
                     <connections>
+                        <outlet property="levelLabel" destination="lue-B1-3re" id="Kqc-9b-qF6"/>
                         <outlet property="pauseButton" destination="RIO-2s-Rtf" id="R5M-ae-ih5"/>
                         <outlet property="restartButton" destination="vrE-jZ-Gs6" id="PeY-99-b4M"/>
                         <outlet property="scoreLabel" destination="UWe-Ac-uGp" id="52Q-xl-xCl"/>
@@ -370,9 +382,12 @@
         <image name="arrow.up" catalog="system" width="120" height="128"/>
         <image name="pause.circle" catalog="system" width="128" height="121"/>
         <image name="play" catalog="system" width="120" height="128"/>
-        <image name="repeat.1" catalog="system" width="128" height="99"/>
+        <image name="repeat" catalog="system" width="128" height="99"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
