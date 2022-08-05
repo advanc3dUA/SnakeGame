@@ -204,12 +204,19 @@ class ViewController: UIViewController {
         snakeView.removeAll()
         createSnake()
         createNewPieceOfSnakeView()
-        for button in moveButtons {
-            button.alpha = 1.0
-        }
+        setupMovingButtons()
         pauseButton.alpha = 1.0
         timerTimeInterval = timerTimeIntervalConst
         moveSnakeDuration = moveSnakeDurationConst
+    }
+    
+    private func setupMovingButtons() {
+        for button in moveButtons {
+            button.alpha = 1.0
+            button.clipsToBounds = true
+            button.layer.cornerRadius = 5
+            
+        }
     }
     
     private func finishGame() {
@@ -270,27 +277,27 @@ class ViewController: UIViewController {
     private func pickupNewPiece(_ newPieceView: UIView) {
         addFeedbackForPickUp()
         scoreLabel.text = "Score: " + String(score)
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 1) { [unowned self] in
             if classicModeBool {
                 newPieceView.backgroundColor = .red
             }
             newPieceView.alpha = 0.1
-            self.snakeView.append(UIImageView(frame: CGRect(x: newPieceView.center.x - CGFloat(PieceOfSnake.width / 2),
+            snakeView.append(UIImageView(frame: CGRect(x: newPieceView.center.x - CGFloat(PieceOfSnake.width / 2),
                                                             y: newPieceView.center.y - CGFloat(PieceOfSnake.height / 2),
                                                             width: CGFloat(PieceOfSnake.width),
                                                             height: CGFloat(PieceOfSnake.height))))
             if classicModeBool {
-                self.snakeView.last?.backgroundColor = .yellow
+                snakeView.last?.backgroundColor = .yellow
             }
-            self.fieldImageView.addSubview(self.snakeView.last!)
+            fieldImageView.addSubview(snakeView.last!)
             
             if score % 10 == 0 && speedUpBool {
-                self.speedUp()
-                self.goingNextLevel()
+                speedUp()
+                goingNextLevel()
             }
             
             newPieceView.removeFromSuperview()
-            self.createNewPieceOfSnakeView()
+            createNewPieceOfSnakeView()
         } completion: { (_) in
             if classicModeBool {
                 newPieceView.backgroundColor = .black
@@ -304,7 +311,7 @@ class ViewController: UIViewController {
     
     private func goingNextLevel() {
         level += 1
-        self.levelLabel.text = "Level: " + String(level)
+        levelLabel.text = "Level: " + String(level)
         levelLabel.flash(numberOfFlashes: 4)
         for view in snakeView {
             view.flash(numberOfFlashes: 3)
