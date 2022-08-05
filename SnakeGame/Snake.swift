@@ -7,8 +7,11 @@
 
 import Foundation
 
+//MARK:- Variables
 let fieldWidth: Int = 300
 let fieldHeight: Int = 400
+let timerTimeIntervalConst = 0.3
+let moveSnakeDurationConst = 0.4
 var score = 0
 var level = 1
 var playerName = ""
@@ -52,7 +55,7 @@ struct PieceOfSnake {
     
     
     //MARK:- new piece of snake methods
-    func getRandomXY(_ fieldWidth: Int, _ fieldHeight: Int) -> (x: Int, y: Int) {
+    func getRandomXY() -> (x: Int, y: Int) {
         var randomX = 0, randomY = 0
         repeat {
             repeat {
@@ -63,13 +66,13 @@ struct PieceOfSnake {
                 randomY = Int.random(in: (PieceOfSnake.height / 10)...fieldHeight / 10 - 4) * 10
             } while randomY % PieceOfSnake.height != 0
             
-        } while checkPointIsInSnakeBody(snakeBody: snake.body, x: randomX, y: randomY)
+        } while checkPointIsInSnakeBody(x: randomX, y: randomY)
         
         return (randomX, randomY)
     }
     
-    func checkPointIsInSnakeBody(snakeBody: [PieceOfSnake], x: Int, y: Int) -> Bool {
-        for piece in snakeBody {
+    func checkPointIsInSnakeBody(x: Int, y: Int) -> Bool {
+        for piece in snake.body {
             if piece.x == x && piece.y == y {
                 return true
             }
@@ -78,7 +81,7 @@ struct PieceOfSnake {
     }
     
     func createNewPieceOfSnake() -> PieceOfSnake {
-        let randomFieldPoint = getRandomXY(fieldWidth, fieldHeight)
+        let randomFieldPoint = getRandomXY()
         return PieceOfSnake(x: randomFieldPoint.x, y: randomFieldPoint.y)
     }
     
@@ -103,7 +106,7 @@ class Snake {
     
     func createSnake() {
         let snakeHead = PieceOfSnake(x: PieceOfSnake.width, y: PieceOfSnake.height)
-        snake.addNewPiece(newPiece: snakeHead)
+        snake.addNewPiece(snakeHead)
     }
     
     func eraseBody() {
@@ -124,7 +127,7 @@ class Snake {
     }
     
     //MARK:- add or pickup new piece methods
-    func addNewPiece(newPiece: PieceOfSnake) {
+    func addNewPiece(_ newPiece: PieceOfSnake) {
         self.body.append(newPiece)
     }
     
@@ -154,7 +157,7 @@ class Snake {
     }
     
     //MARK:- checking current direction
-    func checkCurrentDirection() -> Direction {
+    func checkDirection() -> Direction {
         let head = self.body[0]
         if let lastX = head.lastX, let lastY = head.lastY {
             if (head.x - lastX) > 0 { return .right }
@@ -164,7 +167,7 @@ class Snake {
         return .up
     }
     //MARK:- lose game conditions
-    func touchedBorders(_ widthOfBoard: Int, _ heightOfBoard: Int) -> Bool {
+    func touchedBorders() -> Bool {
         let head = self.body[0]
         
         if head.x < 20 && snake.body[0].direction == .left {

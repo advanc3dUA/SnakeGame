@@ -27,8 +27,6 @@ class ViewController: UIViewController {
     var currentdX: Int = 0
     var currentdY: Int = 0
     
-    let timerTimeIntervalConst = 0.3
-    let moveSnakeDurationConst = 0.4
     lazy var timerTimeInterval = timerTimeIntervalConst
     lazy var moveSnakeDuration = moveSnakeDurationConst
     
@@ -52,23 +50,15 @@ class ViewController: UIViewController {
         
     ]
     
-    //MARK:- Methods
+    //MARK:- standart methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        createField(fieldWidth, fieldHeight)
-        
-        restartButton.layer.cornerRadius = 10
-        pauseButton.layer.cornerRadius = 10
-        levelLabel.clipsToBounds = true
-        scoreLabel.clipsToBounds = true
-        levelLabel.layer.cornerRadius = 10
-        scoreLabel.layer.cornerRadius = 10
-        
+        createField()
+        roundingCornersOfAllElements()
         setupConstraints()
         setupNewGame()
     }
@@ -91,36 +81,34 @@ class ViewController: UIViewController {
     @IBAction func moveRightButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
         if snake.body[0].direction == .up || snake.body[0].direction == .down {
-            addFeedbackForMovingButtons()
-            cancelTimer()
-            setupTimerForMoving(sender)
+            movingButtonAction(sender)
         }
     }
 
     @IBAction func moveLeftButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
         if snake.body[0].direction == .up || snake.body[0].direction == .down {
-            addFeedbackForMovingButtons()
-            cancelTimer()
-            setupTimerForMoving(sender)
+            movingButtonAction(sender)
         }
     }
     @IBAction func moveUpButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
         if snake.body[0].direction == .left || snake.body[0].direction == .right {
-            addFeedbackForMovingButtons()
-            cancelTimer()
-            setupTimerForMoving(sender)
+            movingButtonAction(sender)
         }
     }
     
     @IBAction func moveDownButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
         if snake.body[0].direction == .left || snake.body[0].direction == .right {
-            addFeedbackForMovingButtons()
-            cancelTimer()
-            setupTimerForMoving(sender)
+            movingButtonAction(sender)
         }
+    }
+    
+    private func movingButtonAction(_ sender: UIButton) {
+        addFeedbackForMovingButtons()
+        cancelTimer()
+        setupTimerForMoving(sender)
     }
     
     @IBAction func restartButton(_ sender: UIButton) {
@@ -151,15 +139,16 @@ class ViewController: UIViewController {
         }
     }
     
-   @objc func addFeedbackForMovingButtons() {
+    //MARK:- vibrating on click & pick
+    func addFeedbackForMovingButtons() {
         generator.selectionChanged()
     }
     
     func addFeedbackForPickUp() {
         pickUpGenerator.impactOccurred()
     }
-    //MARK:- field methods
-    private func createField(_ fieldWidth: Int, _ fieldHeight: Int) {
+    //MARK:- setting up views
+    private func createField() {
         fieldImageView = UIImageView(frame: CGRect(x: 0,
                                                    y: 0,
                                                    width: 0,
@@ -170,6 +159,24 @@ class ViewController: UIViewController {
         fieldImageView.layer.borderWidth = CGFloat(PieceOfSnake.width)
         fieldImageView.layer.borderColor = UIColor.lightGray.cgColor
         view.addSubview(fieldImageView)
+    }
+    
+    private func setupMovingButtons() {
+        for button in moveButtons {
+            button.alpha = 1.0
+            button.clipsToBounds = true
+            button.layer.cornerRadius = 5
+        }
+    }
+    
+    private func roundingCornersOfAllElements() {
+        restartButton.layer.cornerRadius = 5
+        pauseButton.layer.cornerRadius = 5
+        levelLabel.clipsToBounds = true
+        scoreLabel.clipsToBounds = true
+        levelLabel.layer.cornerRadius = 5
+        scoreLabel.layer.cornerRadius = 5
+        fieldImageView.layer.cornerRadius = 10
     }
     
     private func createWastedLabel() {
@@ -210,15 +217,6 @@ class ViewController: UIViewController {
         moveSnakeDuration = moveSnakeDurationConst
     }
     
-    private func setupMovingButtons() {
-        for button in moveButtons {
-            button.alpha = 1.0
-            button.clipsToBounds = true
-            button.layer.cornerRadius = 5
-            
-        }
-    }
-    
     private func finishGame() {
         createWastedLabel()
         UIView.animate(withDuration: 1) {
@@ -243,6 +241,15 @@ class ViewController: UIViewController {
             view.removeFromSuperview()
         }
         snakeView.removeAll()
+    }
+    
+    private func goingNextLevel() {
+        level += 1
+        levelLabel.text = "Level: " + String(level)
+        levelLabel.flash(numberOfFlashes: 4)
+        for view in snakeView {
+            view.flash(numberOfFlashes: 3)
+        }
     }
     
     //MARK:- snake methods
@@ -309,15 +316,6 @@ class ViewController: UIViewController {
 
     }
     
-    private func goingNextLevel() {
-        level += 1
-        levelLabel.text = "Level: " + String(level)
-        levelLabel.flash(numberOfFlashes: 4)
-        for view in snakeView {
-            view.flash(numberOfFlashes: 3)
-        }
-    }
-    
     //MARK:- moving snake
     private func setupTimerForMoving(_ sender: UIButton?) {
         timer = Timer.scheduledTimer(withTimeInterval: timerTimeInterval, repeats: true, block: { [unowned self] (Timer) in
@@ -339,12 +337,12 @@ class ViewController: UIViewController {
             moveSnake(dX, dY)
             
             if classicModeBool == false {
-                rotateHead(snake.body)
-                rotateBody(snake.body)
-                rotateTale(snake.body)
+                rotateHead()
+                rotateBody()
+                rotateTale()
             }
             
-            if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
+            if snake.touchedBorders() || snake.tailIsTouched() {
                 finishGame()
             }
             
@@ -361,12 +359,17 @@ class ViewController: UIViewController {
         timer = nil
     }
     
+    private func speedUp() {
+        timerTimeInterval *= 0.95
+        moveSnakeDuration *= 0.95
+    }
+    
     private func moveSnake(_ dX: Int, _ dY: Int) {
         UIView.animate(withDuration: moveSnakeDuration) { [unowned self] in
 
             snake.saveLastPositions()
             snake.moveSnake(dX, dY)
-            snake.body[0].direction = snake.checkCurrentDirection()
+            snake.body[0].direction = snake.checkDirection()
 
             snakeView[0].center.x += CGFloat(dX)
             snakeView[0].center.y += CGFloat(dY)
@@ -380,9 +383,9 @@ class ViewController: UIViewController {
         }
     }
     
-    private func rotateHead(_ body: [PieceOfSnake]) {
+    private func rotateHead() {
         
-        guard let headDirection = body[0].direction else { return }
+        guard let headDirection = snake.body[0].direction else { return }
         switch headDirection {
         case .right: snakeView[0].image = snakeImages["head_right"]
         case .left: snakeView[0].image = snakeImages["head_left"]
@@ -392,11 +395,11 @@ class ViewController: UIViewController {
     }
     
 
-    fileprivate func rotateBody(_ body: [PieceOfSnake]) {
-        guard body.count > 2 else { return }
-        for index in 1...body.endIndex - 2 {
-            guard let bodyPartDirection = body[index].direction else { return }
-            guard let previousPartDirection = body[index - 1].direction else { return }
+    fileprivate func rotateBody() {
+        guard snake.body.count > 2 else { return }
+        for index in 1...snake.body.endIndex - 2 {
+            guard let bodyPartDirection = snake.body[index].direction else { return }
+            guard let previousPartDirection = snake.body[index - 1].direction else { return }
             switch (bodyPartDirection, previousPartDirection) {
             case (.left, _): snakeView[index].image = snakeImages["body_horizontal"]
             case (.right, _): snakeView[index].image = snakeImages["body_horizontal"]
@@ -406,21 +409,15 @@ class ViewController: UIViewController {
         }
     }
     
-    fileprivate func rotateTale(_ body: [PieceOfSnake]) {
-        guard body.count > 1 else { return }
-        guard let taleDirection = body[body.endIndex - 1].direction else { return }
+    fileprivate func rotateTale() {
+        guard snake.body.count > 1 else { return }
+        guard let taleDirection = snake.body[snake.body.endIndex - 1].direction else { return }
         switch taleDirection {
-        case .left: snakeView[body.endIndex - 1].image = snakeImages["tail_right"]
-        case .right: snakeView[body.endIndex - 1].image = snakeImages["tail_left"]
-        case .down: snakeView[body.endIndex - 1].image = snakeImages["tail_up"]
-        case .up: snakeView[body.endIndex - 1].image = snakeImages["tail_down"]
+        case .left: snakeView[snake.body.endIndex - 1].image = snakeImages["tail_right"]
+        case .right: snakeView[snake.body.endIndex - 1].image = snakeImages["tail_left"]
+        case .down: snakeView[snake.body.endIndex - 1].image = snakeImages["tail_up"]
+        case .up: snakeView[snake.body.endIndex - 1].image = snakeImages["tail_down"]
         }
-    }
-    
-    
-    private func speedUp() {
-        timerTimeInterval *= 0.95
-        moveSnakeDuration *= 0.95
     }
     
     //MARK:- alert for saving name
