@@ -62,10 +62,18 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snake game" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5M-3s-dUr">
+                                <rect key="frame" x="127.5" y="63" width="159" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dIP-CZ-T5l"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="C5M-3s-dUr" firstAttribute="top" secondItem="dIP-CZ-T5l" secondAttribute="top" constant="63" id="2Nf-Ma-qvf"/>
+                            <constraint firstItem="C5M-3s-dUr" firstAttribute="centerX" secondItem="dIP-CZ-T5l" secondAttribute="centerX" id="9Ak-M6-GKR"/>
                             <constraint firstItem="BGK-eF-dXg" firstAttribute="top" secondItem="qZn-ag-W51" secondAttribute="bottom" constant="5" id="GaI-Ac-qSO"/>
                             <constraint firstItem="4Pg-4H-Tne" firstAttribute="centerX" secondItem="dIP-CZ-T5l" secondAttribute="centerX" id="LKh-rE-xVa"/>
                             <constraint firstItem="4Pg-4H-Tne" firstAttribute="top" secondItem="dIP-CZ-T5l" secondAttribute="top" constant="240" id="MK2-0H-7ao"/>
