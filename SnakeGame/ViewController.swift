@@ -42,11 +42,7 @@ class ViewController: UIViewController {
                                             "head_up": UIImage(named: "head_up")!,
                                             "head_left": UIImage(named: "head_left")!,
                                             "head_right": UIImage(named: "head_right")!,
-//                                            "body_bottomleft": UIImage(named: "body_bottomleft")!,
-//                                            "body_bottomright": UIImage(named: "body_bottomright")!,
                                             "body_horizontal": UIImage(named: "body_horizontal")!,
-//                                            "body_topleft": UIImage(named: "body_topleft")!,
-//                                            "body_topright": UIImage(named: "body_topright")!,
                                             "body_vertical": UIImage(named: "body_vertical")!,
                                             "tail_down": UIImage(named: "tail_down")!,
                                             "tail_up": UIImage(named: "tail_up")!,
@@ -187,7 +183,7 @@ class ViewController: UIViewController {
         wastedLabel?.textAlignment = .center
         wastedLabel?.text = "Wasted"
         wastedLabel?.backgroundColor = .lightGray
-        wastedLabel?.textColor = .red
+        wastedLabel?.textColor = .systemBlue
         wastedLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         fieldImageView.addSubview(wastedLabel!)
     }
@@ -250,7 +246,7 @@ class ViewController: UIViewController {
                                                       y: fieldImageView.bounds.minY + CGFloat(PieceOfSnake.height),
                                                       width: CGFloat(PieceOfSnake.width),
                                                       height: CGFloat(PieceOfSnake.height)))
-        if classicMode {
+        if classicModeBool {
             snakeHeadView.backgroundColor = .black
         } else {
             snakeHeadView.image = snakeImages["head_right"]
@@ -263,7 +259,7 @@ class ViewController: UIViewController {
     private func createNewPieceOfSnakeView() {
         newPiece = newPiece.createNewPieceOfSnake()
         newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: PieceOfSnake.width, height: PieceOfSnake.height)
-        if classicMode {
+        if classicModeBool {
             newPieceView.backgroundColor = .black
         } else {
             newPieceView.image = snakeImages["apple"]
@@ -275,7 +271,7 @@ class ViewController: UIViewController {
         addFeedbackForPickUp()
         scoreLabel.text = "Score: " + String(score)
         UIView.animate(withDuration: 1) {
-            if classicMode {
+            if classicModeBool {
                 newPieceView.backgroundColor = .red
             }
             newPieceView.alpha = 0.1
@@ -283,7 +279,7 @@ class ViewController: UIViewController {
                                                             y: newPieceView.center.y - CGFloat(PieceOfSnake.height / 2),
                                                             width: CGFloat(PieceOfSnake.width),
                                                             height: CGFloat(PieceOfSnake.height))))
-            if classicMode {
+            if classicModeBool {
                 self.snakeView.last?.backgroundColor = .yellow
             }
             self.fieldImageView.addSubview(self.snakeView.last!)
@@ -296,7 +292,7 @@ class ViewController: UIViewController {
             newPieceView.removeFromSuperview()
             self.createNewPieceOfSnakeView()
         } completion: { (_) in
-            if classicMode {
+            if classicModeBool {
                 newPieceView.backgroundColor = .black
             } else {
                 newPieceView.backgroundColor = nil
@@ -335,7 +331,7 @@ class ViewController: UIViewController {
             
             moveSnake(dX, dY)
             
-            if classicMode == false {
+            if classicModeBool == false {
                 rotateHead(snake.body)
                 rotateBody(snake.body)
                 rotateTale(snake.body)
@@ -461,6 +457,7 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
+//MARK:- flashing method
 extension UIView {
         func flash(numberOfFlashes: Float) {
            let flash = CABasicAnimation(keyPath: "opacity")

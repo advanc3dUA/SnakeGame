@@ -233,7 +233,7 @@
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="XjA-E3-ziQ" firstAttribute="height" secondItem="eVV-Jt-g7a" secondAttribute="height" id="6fV-Tg-cbf"/>
                             <constraint firstItem="UWe-Ac-uGp" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.029703" id="8n0-PT-bTn"/>
@@ -428,9 +428,6 @@
         <image name="play" catalog="system" width="120" height="128"/>
         <image name="repeat" catalog="system" width="128" height="99"/>
         <image name="snake-logo" width="512" height="512"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
