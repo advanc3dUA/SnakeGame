@@ -13,6 +13,7 @@ var score = 0
 var level = 1
 var playerName = ""
 var speedUpBool = true
+var classicMode = false
 
 enum CurrentDirection {
     case up, down, left, right

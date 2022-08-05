@@ -12,11 +12,17 @@ class OptionsTableViewController: UITableViewController {
     
     @IBOutlet weak var resetRecordButton: UIButton!
     @IBOutlet weak var speedUpSwitch: UISwitch!
+    @IBOutlet weak var classicModeSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         resetRecordButton.layer.cornerRadius = 10
         resetRecordButton.setTitleColor(UIColor.black, for: .selected)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadSettings()
     }
 
     @IBAction func resetRecordAction(_ sender: UIButton) {
@@ -25,13 +31,30 @@ class OptionsTableViewController: UITableViewController {
     @IBAction func speedUpSwitch(_ sender: UISwitch) {
         if speedUpSwitch.isOn {
             speedUpBool = true
-            print(speedUpBool)
         } else {
             speedUpBool = false
-            print(speedUpBool)
+        }
+    }
+    @IBAction func classicModeSwitch(_ sender: UISwitch) {
+        if classicModeSwitch.isOn {
+            classicMode = true
+        } else {
+            classicMode = false
         }
     }
     
+    private func loadSettings() {
+        if speedUpBool {
+            speedUpSwitch.isOn = true
+        } else {
+            speedUpSwitch.isOn = false
+        }
+        if classicMode {
+            classicModeSwitch.isOn = true
+        } else {
+            classicModeSwitch.isOn = false
+        }
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

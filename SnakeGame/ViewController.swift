@@ -195,8 +195,10 @@ class ViewController: UIViewController {
     private func finishGame() {
         cancelTimer()
         gameStatus = .lost
-        if snake.saveRecord() {
-            createAlert()
+        if speedUpBool {
+            if snake.saveRecord() {
+                createAlert()
+            }
         }
         UIView.animate(withDuration: 1) { [unowned self] () in
             for button in moveButtons {
@@ -220,7 +222,11 @@ class ViewController: UIViewController {
                                                       y: fieldImageView.bounds.minY + CGFloat(PieceOfSnake.height),
                                                       width: CGFloat(PieceOfSnake.width),
                                                       height: CGFloat(PieceOfSnake.height)))
-        snakeHeadView.image = snakeImages["head_right"]
+        if classicMode {
+            snakeHeadView.backgroundColor = .black
+        } else {
+            snakeHeadView.image = snakeImages["head_right"]
+        }
         fieldImageView.addSubview(snakeHeadView)
         snakeView.append(snakeHeadView)
     }
@@ -229,7 +235,11 @@ class ViewController: UIViewController {
     private func createNewPieceOfSnakeView() {
         newPiece = newPiece.createNewPieceOfSnake()
         newPieceView.frame = CGRect(x: newPiece.x, y: newPiece.y, width: PieceOfSnake.width, height: PieceOfSnake.height)
-        newPieceView.image = snakeImages["apple"]
+        if classicMode {
+            newPieceView.backgroundColor = .black
+        } else {
+            newPieceView.image = snakeImages["apple"]
+        }
         fieldImageView.addSubview(newPieceView)
     }
     
@@ -237,12 +247,17 @@ class ViewController: UIViewController {
         addFeedbackForPickUp()
         scoreLabel.text = "Score: " + String(score)
         UIView.animate(withDuration: 1) {
-            newPieceView.backgroundColor = .red
+            if classicMode {
+                newPieceView.backgroundColor = .red
+            }
             newPieceView.alpha = 0.1
             self.snakeView.append(UIImageView(frame: CGRect(x: newPieceView.center.x - CGFloat(PieceOfSnake.width / 2),
                                                             y: newPieceView.center.y - CGFloat(PieceOfSnake.height / 2),
                                                             width: CGFloat(PieceOfSnake.width),
                                                             height: CGFloat(PieceOfSnake.height))))
+            if classicMode {
+                self.snakeView.last?.backgroundColor = .yellow
+            }
             self.fieldImageView.addSubview(self.snakeView.last!)
             
             if score % 10 == 0 && speedUpBool {
@@ -253,7 +268,11 @@ class ViewController: UIViewController {
             newPieceView.removeFromSuperview()
             self.createNewPieceOfSnakeView()
         } completion: { (_) in
-            newPieceView.backgroundColor = nil
+            if classicMode {
+                newPieceView.backgroundColor = .black
+            } else {
+                newPieceView.backgroundColor = nil
+            }
             newPieceView.alpha = 1.0
         }
 
@@ -263,6 +282,9 @@ class ViewController: UIViewController {
         level += 1
         self.levelLabel.text = "Level: " + String(level)
         levelLabel.flash(numberOfFlashes: 4)
+        for view in snakeView {
+            view.flash(numberOfFlashes: 3)
+        }
     }
     
     //MARK:- moving snake
@@ -285,10 +307,11 @@ class ViewController: UIViewController {
             
             moveSnake(dX, dY)
             
-            rotateHead(snake.body)
-            rotateBody(snake.body)
-            rotateTale(snake.body)
-            
+            if classicMode == false {
+                rotateHead(snake.body)
+                rotateBody(snake.body)
+                rotateTale(snake.body)
+            }
             
             if snake.touchedBorders(fieldWidth, fieldHeight) || snake.tailIsTouched() {
                 finishGame()
@@ -384,7 +407,11 @@ class ViewController: UIViewController {
                 playerName = ""
                 return
             }
-            playerName = name
+            if name == "" {
+                playerName = "unknown hero"
+            } else {
+                playerName = name
+            }
             snake.savePlayerName(name: playerName)
         })
         alert.addAction(save)
