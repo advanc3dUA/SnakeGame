@@ -90,7 +90,7 @@ class ViewController: UIViewController {
     //MARK:- buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
-        if currentDirection == .up || currentDirection == .down {
+        if snake.body[0].direction == .up || snake.body[0].direction == .down {
             addFeedbackForMovingButtons()
             cancelTimer()
             setupTimerForMoving(sender)
@@ -99,7 +99,7 @@ class ViewController: UIViewController {
 
     @IBAction func moveLeftButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
-        if currentDirection == .up || currentDirection == .down {
+        if snake.body[0].direction == .up || snake.body[0].direction == .down {
             addFeedbackForMovingButtons()
             cancelTimer()
             setupTimerForMoving(sender)
@@ -107,7 +107,7 @@ class ViewController: UIViewController {
     }
     @IBAction func moveUpButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
-        if currentDirection == .left || currentDirection == .right {
+        if snake.body[0].direction == .left || snake.body[0].direction == .right {
             addFeedbackForMovingButtons()
             cancelTimer()
             setupTimerForMoving(sender)
@@ -116,7 +116,7 @@ class ViewController: UIViewController {
     
     @IBAction func moveDownButton(_ sender: UIButton) {
         guard gameStatus == .running else { return }
-        if currentDirection == .left || currentDirection == .right {
+        if snake.body[0].direction == .left || snake.body[0].direction == .right {
             addFeedbackForMovingButtons()
             cancelTimer()
             setupTimerForMoving(sender)
@@ -359,7 +359,7 @@ class ViewController: UIViewController {
 
             snake.saveLastPositions()
             snake.moveSnake(dX, dY)
-            currentDirection = snake.checkCurrentDirection()
+            snake.body[0].direction = snake.checkCurrentDirection()
 
             snakeView[0].center.x += CGFloat(dX)
             snakeView[0].center.y += CGFloat(dY)

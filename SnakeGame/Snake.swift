@@ -14,8 +14,11 @@ var level = 1
 var playerName = ""
 var speedUpBool = true
 var classicModeBool = false
+var snake = Snake()
+var newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
+var gameStatus = GameStatus.running
 
-enum CurrentDirection {
+enum Direction {
     case up, down, left, right
 }
 
@@ -45,7 +48,7 @@ struct PieceOfSnake {
     var lastY: Int?
     static let width: Int = 20
     static let height: Int = 20
-    var direction: CurrentDirection?
+    var direction: Direction?
     
     
     //MARK:- new piece of snake methods
@@ -95,7 +98,6 @@ class Snake {
         level = 1
         playerName = ""
         newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
-        currentDirection = CurrentDirection.right
         gameStatus = GameStatus.running
     }
     
@@ -152,7 +154,7 @@ class Snake {
     }
     
     //MARK:- checking current direction
-    func checkCurrentDirection() -> CurrentDirection {
+    func checkCurrentDirection() -> Direction {
         let head = self.body[0]
         if let lastX = head.lastX, let lastY = head.lastY {
             if (head.x - lastX) > 0 { return .right }
@@ -165,16 +167,16 @@ class Snake {
     func touchedBorders(_ widthOfBoard: Int, _ heightOfBoard: Int) -> Bool {
         let head = self.body[0]
         
-        if head.x < 20 && currentDirection == .left {
+        if head.x < 20 && snake.body[0].direction == .left {
             return true
         }
-        if head.x > fieldWidth - 2 * PieceOfSnake.width && currentDirection == .right {
+        if head.x > fieldWidth - 2 * PieceOfSnake.width && snake.body[0].direction == .right {
             return true
         }
-        if head.y < 20 && currentDirection == .up {
+        if head.y < 20 && snake.body[0].direction == .up {
             return true
         }
-        if head.y > fieldHeight - 2 * PieceOfSnake.height && currentDirection == .down {
+        if head.y > fieldHeight - 2 * PieceOfSnake.height && snake.body[0].direction == .down {
             return true
         }
         return false
@@ -190,9 +192,3 @@ class Snake {
         return false
     }
 }
-
-
-var snake = Snake()
-var newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
-var currentDirection = CurrentDirection.right
-var gameStatus = GameStatus.running
