@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var levelLabel: UILabel!
     
     var fieldImageView = UIImageView()
+    var wastedLabel: UILabel?
     
     var snakeView: [UIImageView] = []
     
@@ -127,6 +128,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func restartButton(_ sender: UIButton) {
+        removeWastedLabel()
         finishGame()
         snake.eraseBody()
         setupNewGame()
@@ -174,12 +176,34 @@ class ViewController: UIViewController {
         view.addSubview(fieldImageView)
     }
     
+    private func createWastedLabel() {
+        wastedLabel = UILabel(frame: CGRect(x: fieldImageView.bounds.maxX / 2 - 50,
+                                            y: fieldImageView.bounds.maxY / 2 - 25,
+                                            width: 100,
+                                            height: 50))
+        wastedLabel?.alpha = 0.0
+        wastedLabel?.clipsToBounds = true
+        wastedLabel?.layer.cornerRadius = 10
+        wastedLabel?.textAlignment = .center
+        wastedLabel?.text = "Wasted"
+        wastedLabel?.backgroundColor = .lightGray
+        wastedLabel?.textColor = .red
+        wastedLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+        fieldImageView.addSubview(wastedLabel!)
+    }
+    
+    private func removeWastedLabel() {
+        wastedLabel?.removeFromSuperview()
+        wastedLabel = nil
+    }
+    
     //MARK:- game methods
     private func setupNewGame() {
         currentdX = 20
         currentdY = 0
         scoreLabel.text = "Score: 0"
         levelLabel.text = "Level: 1"
+        removeWastedLabel()
         snake.setupNewGame()
         snakeView.removeAll()
         createSnake()
@@ -193,6 +217,10 @@ class ViewController: UIViewController {
     }
     
     private func finishGame() {
+        createWastedLabel()
+        UIView.animate(withDuration: 1) {
+            self.wastedLabel?.alpha = 1.0
+        }
         cancelTimer()
         gameStatus = .lost
         if speedUpBool {
