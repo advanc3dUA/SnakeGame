@@ -387,10 +387,10 @@ class ViewController: UIViewController {
         
         guard let headDirection = snake.body[0].direction else { return }
         switch headDirection {
-        case .right: snakeView[0].image = snakeImages["head_right"]
-        case .left: snakeView[0].image = snakeImages["head_left"]
-        case .up: snakeView[0].image = snakeImages["head_up"]
-        case .down: snakeView[0].image = snakeImages["head_down"]
+        case .right: transition(indexOfImageView: 0, to: "head_right")
+        case .left: transition(indexOfImageView: 0, to: "head_left")
+        case .up: transition(indexOfImageView: 0, to: "head_up")
+        case .down: transition(indexOfImageView: 0, to: "head_down")
         }
     }
     
@@ -401,22 +401,31 @@ class ViewController: UIViewController {
             guard let bodyPartDirection = snake.body[index].direction else { return }
             guard let previousPartDirection = snake.body[index - 1].direction else { return }
             switch (bodyPartDirection, previousPartDirection) {
-            case (.left, _): snakeView[index].image = snakeImages["body_horizontal"]
-            case (.right, _): snakeView[index].image = snakeImages["body_horizontal"]
-            case (.up, _): snakeView[index].image = snakeImages["body_vertical"]
-            case (.down, _): snakeView[index].image = snakeImages["body_vertical"]
+            case (.left, _): transition(indexOfImageView: index, to: "body_horizontal")
+            case (.right, _): transition(indexOfImageView: index, to: "body_horizontal")
+            case (.up, _): transition(indexOfImageView: index, to: "body_vertical")
+            case (.down, _): transition(indexOfImageView: index, to: "body_vertical")
             }
         }
     }
     
     fileprivate func rotateTale() {
         guard snake.body.count > 1 else { return }
-        guard let taleDirection = snake.body[snake.body.endIndex - 1].direction else { return }
+        guard let taleIndex = snakeView.lastIndex(of: snakeView.last!) else { return }
+        guard let taleDirection = snake.body[taleIndex].direction else { return }
         switch taleDirection {
-        case .left: snakeView[snake.body.endIndex - 1].image = snakeImages["tail_right"]
-        case .right: snakeView[snake.body.endIndex - 1].image = snakeImages["tail_left"]
-        case .down: snakeView[snake.body.endIndex - 1].image = snakeImages["tail_up"]
-        case .up: snakeView[snake.body.endIndex - 1].image = snakeImages["tail_down"]
+        case .left: transition(indexOfImageView: taleIndex, to: "tail_right")
+        case .right: transition(indexOfImageView: taleIndex, to: "tail_left")
+        case .down: transition(indexOfImageView: taleIndex, to: "tail_up")
+        case .up: transition(indexOfImageView: taleIndex, to: "tail_down")
+        }
+    }
+    
+    fileprivate func transition(indexOfImageView: Int, to imageName: String) {
+        UIView.transition(with: snakeView[indexOfImageView],
+                          duration: 0.1,
+                          options: [.beginFromCurrentState, .curveEaseOut]) {
+            self.snakeView[indexOfImageView].image = self.snakeImages[imageName]
         }
     }
     
