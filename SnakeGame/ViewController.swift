@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var levelLabel: UILabel!
     
     var fieldImageView = UIImageView()
-    var wastedLabel: UILabel?
+    var wastedImageView: UIImageView?
     
     var snakeView: [UIImageView] = []
     
@@ -112,7 +112,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func restartButton(_ sender: UIButton) {
-        removeWastedLabel()
+        removeWastedImageView()
         finishGame()
         snake.eraseBody()
         setupNewGame()
@@ -179,25 +179,19 @@ class ViewController: UIViewController {
         fieldImageView.layer.cornerRadius = 10
     }
     
-    private func createWastedLabel() {
-        wastedLabel = UILabel(frame: CGRect(x: fieldImageView.bounds.maxX / 2 - 50,
-                                            y: fieldImageView.bounds.maxY / 2 - 25,
-                                            width: 100,
-                                            height: 50))
-        wastedLabel?.alpha = 0.0
-        wastedLabel?.clipsToBounds = true
-        wastedLabel?.layer.cornerRadius = 10
-        wastedLabel?.textAlignment = .center
-        wastedLabel?.text = "Wasted"
-        wastedLabel?.backgroundColor = .lightGray
-        wastedLabel?.textColor = .systemBlue
-        wastedLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
-        fieldImageView.addSubview(wastedLabel!)
+    private func createWastedView() {
+        wastedImageView = UIImageView(frame: CGRect(x: Int(fieldImageView.bounds.maxX) / 2 - fieldHeight / 4,
+                                                    y: Int(fieldImageView.bounds.maxY) / 2 - fieldHeight / 4,
+                                                    width: fieldHeight / 2,
+                                                    height: fieldHeight / 2))
+        wastedImageView?.alpha = 0.0
+        wastedImageView?.image = UIImage(named: "wasted2")
+        fieldImageView.addSubview(wastedImageView!)
     }
     
-    private func removeWastedLabel() {
-        wastedLabel?.removeFromSuperview()
-        wastedLabel = nil
+    private func removeWastedImageView() {
+        wastedImageView?.removeFromSuperview()
+        wastedImageView = nil
     }
     
     //MARK:- game methods
@@ -206,7 +200,8 @@ class ViewController: UIViewController {
         currentdY = 0
         scoreLabel.text = "Score: 0"
         levelLabel.text = "Level: 1"
-        removeWastedLabel()
+        removeWastedImageView()
+        removeWastedImageView()
         snake.setupNewGame()
         snakeView.removeAll()
         createSnake()
@@ -218,9 +213,9 @@ class ViewController: UIViewController {
     }
     
     private func finishGame() {
-        createWastedLabel()
-        UIView.animate(withDuration: 1) {
-            self.wastedLabel?.alpha = 1.0
+        createWastedView()
+        UIView.animate(withDuration: 1.5) {
+            self.wastedImageView?.alpha = 1.0
         }
         cancelTimer()
         gameStatus = .lost
