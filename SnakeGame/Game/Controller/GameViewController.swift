@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class GameViewController: UIViewController {
 
     //MARK:- Variables
     @IBOutlet var moveButtons: [UIButton]!
@@ -177,21 +177,6 @@ class ViewController: UIViewController {
         levelLabel.layer.cornerRadius = 5
         scoreLabel.layer.cornerRadius = 5
         fieldImageView.layer.cornerRadius = 10
-    }
-    
-    private func createWastedView() {
-        wastedImageView = UIImageView(frame: CGRect(x: Int(fieldImageView.bounds.maxX) / 2 - fieldHeight / 4,
-                                                    y: Int(fieldImageView.bounds.maxY) / 2 - fieldHeight / 4,
-                                                    width: fieldHeight / 2,
-                                                    height: fieldHeight / 2))
-        wastedImageView?.alpha = 0.0
-        wastedImageView?.image = UIImage(named: "wasted2")
-        fieldImageView.addSubview(wastedImageView!)
-    }
-    
-    private func removeWastedImageView() {
-        wastedImageView?.removeFromSuperview()
-        wastedImageView = nil
     }
     
     //MARK:- game methods
@@ -458,7 +443,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITextFieldDelegate {
+extension GameViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

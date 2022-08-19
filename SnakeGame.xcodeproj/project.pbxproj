@@ -9,20 +9,26 @@
 /* Begin PBXBuildFile section */
 		BF24567D288D399E008B2027 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF24567C288D399E008B2027 /* AppDelegate.swift */; };
 		BF24567F288D399E008B2027 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF24567E288D399E008B2027 /* SceneDelegate.swift */; };
-		BF245681288D399E008B2027 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF245680288D399E008B2027 /* ViewController.swift */; };
+		BF245681288D399E008B2027 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF245680288D399E008B2027 /* GameViewController.swift */; };
 		BF245684288D399E008B2027 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF245682288D399E008B2027 /* Main.storyboard */; };
 		BF245686288D399E008B2027 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF245685288D399E008B2027 /* Assets.xcassets */; };
 		BF245689288D399E008B2027 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF245687288D399E008B2027 /* LaunchScreen.storyboard */; };
 		BF245692288D5BA9008B2027 /* Snake.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF245691288D5BA9008B2027 /* Snake.swift */; };
 		BF3A944F2899170600F7F44E /* OptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3A944E2899170600F7F44E /* OptionsTableViewController.swift */; };
 		BF99A20E2898015D007C58E8 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF99A20D2898015D007C58E8 /* MenuViewController.swift */; };
+		BFB3415E28AF97870002104E /* GameStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3415D28AF97870002104E /* GameStatus.swift */; };
+		BFB3416128AF97BA0002104E /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3416028AF97BA0002104E /* UserDefaults.swift */; };
+		BFB3416428AF97D50002104E /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3416328AF97D50002104E /* Direction.swift */; };
+		BFB3416728AF982F0002104E /* Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3416628AF982F0002104E /* Variables.swift */; };
+		BFB3416A28AF98910002104E /* PieceOfSnake.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3416928AF98910002104E /* PieceOfSnake.swift */; };
+		BFB3416E28AF9BFA0002104E /* LoseGameLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB3416D28AF9BFA0002104E /* LoseGameLogo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BF245679288D399D008B2027 /* SnakeGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnakeGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF24567C288D399E008B2027 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF24567E288D399E008B2027 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BF245680288D399E008B2027 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BF245680288D399E008B2027 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		BF245683288D399E008B2027 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BF245685288D399E008B2027 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF245688288D399E008B2027 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -30,6 +36,12 @@
 		BF245691288D5BA9008B2027 /* Snake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snake.swift; sourceTree = "<group>"; };
 		BF3A944E2899170600F7F44E /* OptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableViewController.swift; sourceTree = "<group>"; };
 		BF99A20D2898015D007C58E8 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		BFB3415D28AF97870002104E /* GameStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStatus.swift; sourceTree = "<group>"; };
+		BFB3416028AF97BA0002104E /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		BFB3416328AF97D50002104E /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		BFB3416628AF982F0002104E /* Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variables.swift; sourceTree = "<group>"; };
+		BFB3416928AF98910002104E /* PieceOfSnake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceOfSnake.swift; sourceTree = "<group>"; };
+		BFB3416D28AF9BFA0002104E /* LoseGameLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoseGameLogo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,18 +74,160 @@
 		BF24567B288D399E008B2027 /* SnakeGame */ = {
 			isa = PBXGroup;
 			children = (
-				BF24567C288D399E008B2027 /* AppDelegate.swift */,
-				BF24567E288D399E008B2027 /* SceneDelegate.swift */,
-				BF245680288D399E008B2027 /* ViewController.swift */,
-				BF99A20D2898015D007C58E8 /* MenuViewController.swift */,
-				BF3A944E2899170600F7F44E /* OptionsTableViewController.swift */,
-				BF245691288D5BA9008B2027 /* Snake.swift */,
-				BF245682288D399E008B2027 /* Main.storyboard */,
-				BF245685288D399E008B2027 /* Assets.xcassets */,
-				BF245687288D399E008B2027 /* LaunchScreen.storyboard */,
-				BF24568A288D399E008B2027 /* Info.plist */,
+				BF40656B28AF94E600072131 /* Application */,
+				BF40656F28AF953A00072131 /* Menu */,
+				BF40657328AF956A00072131 /* Game */,
+				BF40657728AF958B00072131 /* Options */,
+				BF40657B28AF95BE00072131 /* Supporting files */,
 			);
 			path = SnakeGame;
+			sourceTree = "<group>";
+		};
+		BF40656B28AF94E600072131 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				BF40656C28AF94F000072131 /* Model */,
+				BF40656D28AF94FA00072131 /* View */,
+				BF40656E28AF950700072131 /* Controller */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		BF40656C28AF94F000072131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BF40656D28AF94FA00072131 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BF245682288D399E008B2027 /* Main.storyboard */,
+				BF245687288D399E008B2027 /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BF40656E28AF950700072131 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BF24567C288D399E008B2027 /* AppDelegate.swift */,
+				BF24567E288D399E008B2027 /* SceneDelegate.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		BF40656F28AF953A00072131 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				BF40657028AF956100072131 /* Model */,
+				BF40657128AF956100072131 /* View */,
+				BF40657228AF956100072131 /* Controller */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		BF40657028AF956100072131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BF40657128AF956100072131 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BF40657228AF956100072131 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BF99A20D2898015D007C58E8 /* MenuViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		BF40657328AF956A00072131 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				BF40657528AF957C00072131 /* Model */,
+				BF40657428AF957C00072131 /* View */,
+				BF40657628AF957C00072131 /* Controller */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		BF40657428AF957C00072131 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BFB3416D28AF9BFA0002104E /* LoseGameLogo.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BF40657528AF957C00072131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BFB3416628AF982F0002104E /* Variables.swift */,
+				BF245691288D5BA9008B2027 /* Snake.swift */,
+				BFB3416928AF98910002104E /* PieceOfSnake.swift */,
+				BFB3415D28AF97870002104E /* GameStatus.swift */,
+				BFB3416028AF97BA0002104E /* UserDefaults.swift */,
+				BFB3416328AF97D50002104E /* Direction.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BF40657628AF957C00072131 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BF245680288D399E008B2027 /* GameViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		BF40657728AF958B00072131 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				BF40657828AF959300072131 /* Model */,
+				BF40657928AF959300072131 /* View */,
+				BF40657A28AF959300072131 /* Controller */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		BF40657828AF959300072131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		BF40657928AF959300072131 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BF40657A28AF959300072131 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BF3A944E2899170600F7F44E /* OptionsTableViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		BF40657B28AF95BE00072131 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				BF245685288D399E008B2027 /* Assets.xcassets */,
+				BF24568A288D399E008B2027 /* Info.plist */,
+			);
+			path = "Supporting files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,9 +303,15 @@
 				BF245692288D5BA9008B2027 /* Snake.swift in Sources */,
 				BF99A20E2898015D007C58E8 /* MenuViewController.swift in Sources */,
 				BF3A944F2899170600F7F44E /* OptionsTableViewController.swift in Sources */,
-				BF245681288D399E008B2027 /* ViewController.swift in Sources */,
+				BFB3415E28AF97870002104E /* GameStatus.swift in Sources */,
+				BFB3416128AF97BA0002104E /* UserDefaults.swift in Sources */,
+				BFB3416A28AF98910002104E /* PieceOfSnake.swift in Sources */,
+				BF245681288D399E008B2027 /* GameViewController.swift in Sources */,
+				BFB3416E28AF9BFA0002104E /* LoseGameLogo.swift in Sources */,
 				BF24567D288D399E008B2027 /* AppDelegate.swift in Sources */,
 				BF24567F288D399E008B2027 /* SceneDelegate.swift in Sources */,
+				BFB3416428AF97D50002104E /* Direction.swift in Sources */,
+				BFB3416728AF982F0002104E /* Variables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +460,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z4DAU59V98;
-				INFOPLIST_FILE = SnakeGame/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SnakeGame/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -319,7 +479,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z4DAU59V98;
-				INFOPLIST_FILE = SnakeGame/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/SnakeGame/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
