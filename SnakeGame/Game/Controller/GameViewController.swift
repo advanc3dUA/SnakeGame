@@ -17,7 +17,6 @@ class GameViewController: UIViewController {
     @IBOutlet weak var levelLabel: UILabel!
     
     var fieldImageView = UIImageView()
-    var wastedImageView: UIImageView?
     
     var snakeView: [UIImageView] = []
     
@@ -112,7 +111,7 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func restartButton(_ sender: UIButton) {
-        removeWastedImageView()
+        LoseGameLogo.remove()
         finishGame()
         snake.eraseBody()
         setupNewGame()
@@ -185,8 +184,7 @@ class GameViewController: UIViewController {
         currentdY = 0
         scoreLabel.text = "Score: 0"
         levelLabel.text = "Level: 1"
-        removeWastedImageView()
-        removeWastedImageView()
+        LoseGameLogo.remove()
         snake.setupNewGame()
         snakeView.removeAll()
         createSnake()
@@ -198,9 +196,10 @@ class GameViewController: UIViewController {
     }
     
     private func finishGame() {
-        createWastedView()
+        LoseGameLogo.setup()
+        fieldImageView.addSubview(LoseGameLogo.shared ?? UIImageView())
         UIView.animate(withDuration: 1.5) {
-            self.wastedImageView?.alpha = 1.0
+            LoseGameLogo.shared?.alpha = 1.0
         }
         cancelTimer()
         gameStatus = .lost
