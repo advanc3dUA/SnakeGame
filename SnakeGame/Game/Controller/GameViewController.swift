@@ -16,8 +16,6 @@ class GameViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
     
-    var fieldImageView = UIImageView()
-    
     var snakeView: [UIImageView] = []
     
     var newPieceView = UIImageView()
@@ -56,9 +54,9 @@ class GameViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        createField()
+        Field.create(controller: self)
         roundingCornersOfAllElements()
-        setupConstraints()
+        Field.setupConstraints(controller: self)
         setupNewGame()
     }
     
@@ -146,19 +144,6 @@ class GameViewController: UIViewController {
     func addFeedbackForPickUp() {
         pickUpGenerator.impactOccurred()
     }
-    //MARK:- setting up views
-    private func createField() {
-        fieldImageView = UIImageView(frame: CGRect(x: 0,
-                                                   y: 0,
-                                                   width: 0,
-                                                   height: 0))
-        fieldImageView.translatesAutoresizingMaskIntoConstraints = false
-        fieldImageView.backgroundColor = .white
-        fieldImageView.layer.masksToBounds = false
-        fieldImageView.layer.borderWidth = CGFloat(PieceOfSnake.width)
-        fieldImageView.layer.borderColor = UIColor.lightGray.cgColor
-        view.addSubview(fieldImageView)
-    }
     
     private func setupMovingButtons() {
         for button in moveButtons {
@@ -175,7 +160,7 @@ class GameViewController: UIViewController {
         scoreLabel.clipsToBounds = true
         levelLabel.layer.cornerRadius = 5
         scoreLabel.layer.cornerRadius = 5
-        fieldImageView.layer.cornerRadius = 10
+        Field.shared.layer.cornerRadius = 10
     }
     
     //MARK:- game methods
@@ -197,7 +182,7 @@ class GameViewController: UIViewController {
     
     private func finishGame() {
         LoseGameLogo.setup()
-        fieldImageView.addSubview(LoseGameLogo.shared ?? UIImageView())
+        Field.shared.addSubview(LoseGameLogo.shared ?? UIImageView())
         UIView.animate(withDuration: 1.5) {
             LoseGameLogo.shared?.alpha = 1.0
         }
@@ -235,8 +220,8 @@ class GameViewController: UIViewController {
     private func createSnake() {
         snake.createSnake()
 
-        let snakeHeadView = UIImageView(frame: CGRect(x: fieldImageView.bounds.minX + CGFloat(PieceOfSnake.width),
-                                                      y: fieldImageView.bounds.minY + CGFloat(PieceOfSnake.height),
+        let snakeHeadView = UIImageView(frame: CGRect(x: Field.shared.bounds.minX + CGFloat(PieceOfSnake.width),
+                                                      y: Field.shared.bounds.minY + CGFloat(PieceOfSnake.height),
                                                       width: CGFloat(PieceOfSnake.width),
                                                       height: CGFloat(PieceOfSnake.height)))
         if classicModeBool {
@@ -244,7 +229,7 @@ class GameViewController: UIViewController {
         } else {
             snakeHeadView.image = snakeImages["head_right"]
         }
-        fieldImageView.addSubview(snakeHeadView)
+        Field.shared.addSubview(snakeHeadView)
         snakeView.append(snakeHeadView)
     }
     
@@ -257,7 +242,7 @@ class GameViewController: UIViewController {
         } else {
             newPieceView.image = snakeImages["apple"]
         }
-        fieldImageView.addSubview(newPieceView)
+        Field.shared.addSubview(newPieceView)
     }
     
     private func pickupNewPiece(_ newPieceView: UIView) {
@@ -275,7 +260,7 @@ class GameViewController: UIViewController {
             if classicModeBool {
                 snakeView.last?.backgroundColor = .yellow
             }
-            fieldImageView.addSubview(snakeView.last!)
+            Field.shared.addSubview(snakeView.last!)
             
             if score % 10 == 0 && speedUpBool {
                 speedUp()
@@ -407,58 +392,6 @@ class GameViewController: UIViewController {
             self.snakeView[indexOfImageView].image = self.snakeImages[imageName]
         }
     }
-    
-    //MARK:- alert for saving name
-    func createAlert() {
-        alert = UIAlertController(title: "Congratulations", message: "You've beaten the record!", preferredStyle: .alert)
-        alert.addTextField { (textField : UITextField!) in
-            textField.placeholder = "Enter your name"
-            textField.delegate = self
-        }
-        
-        // save button
-        let save = UIAlertAction(title: "Save", style: UIAlertAction.Style.default, handler: { saveAction -> Void in
-            let textField = self.alert.textFields![0] as UITextField
-            guard let name = textField.text else {
-                playerName = ""
-                return
-            }
-            if name == "" {
-                playerName = "unknown hero"
-            } else {
-                playerName = name
-            }
-            snake.savePlayerName(name: playerName)
-        })
-        alert.addAction(save)
-        self.present(alert, animated: true, completion: nil)
-    }
-    //MARK:- constraints
-    func setupConstraints() {
-        fieldImageView.topAnchor.constraint(equalTo: levelLabel.bottomAnchor, constant: 20).isActive = true
-        fieldImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        fieldImageView.widthAnchor.constraint(equalToConstant: CGFloat(fieldWidth)).isActive = true
-        fieldImageView.heightAnchor.constraint(equalToConstant: CGFloat(fieldHeight)).isActive = true
-    }
 }
 
-extension GameViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}
 
-//MARK:- flashing method
-extension UIView {
-        func flash(numberOfFlashes: Float) {
-           let flash = CABasicAnimation(keyPath: "opacity")
-           flash.duration = 0.2
-           flash.fromValue = 1
-           flash.toValue = 0.1
-           flash.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-           flash.autoreverses = true
-           flash.repeatCount = numberOfFlashes
-           layer.add(flash, forKey: nil)
-       }
- }
