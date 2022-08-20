@@ -10,15 +10,7 @@ import Foundation
 class Snake {
     var body: [PieceOfSnake] = []
     
-    //MARK:- game methods
-    func setupNewGame() {
-        score = 0
-        level = 1
-        playerName = ""
-        newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
-        gameStatus = GameStatus.running
-    }
-    
+    //MARK:- game methods    
     func createSnake() {
         let snakeHead = PieceOfSnake(x: PieceOfSnake.width, y: PieceOfSnake.height)
         snake.addNewPiece(snakeHead)
@@ -27,20 +19,7 @@ class Snake {
     func eraseBody() {
         self.body.removeAll()
     }
-    
-    func saveRecord() -> Bool {
-        if score > UserDefaults.standard.integer(forKey: CaseUserDefaults.record) {
-            UserDefaults.standard.setValue(score, forKey: CaseUserDefaults.record)
-            return true
-        }
-        return false
-    }
-    
-    func savePlayerName(name: String) {
-        playerName = name
-        UserDefaults.standard.setValue(playerName, forKey: CaseUserDefaults.playerName)
-    }
-    
+        
     //MARK:- add or pickup new piece methods
     func addNewPiece(_ newPiece: PieceOfSnake) {
         self.body.append(newPiece)

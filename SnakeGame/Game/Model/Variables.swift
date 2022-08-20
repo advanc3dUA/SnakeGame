@@ -18,4 +18,3 @@ var speedUpBool = true
 var classicModeBool = false
 var snake = Snake()
 var newPiece = PieceOfSnake(x: 0, y: 0).createNewPieceOfSnake()
-var gameStatus = GameStatus.running

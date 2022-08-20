@@ -10,20 +10,20 @@ import UIKit
 
 class LoseGameLogo {
     
-    static var shared: UIImageView?
+    static var imageView: UIImageView?
     
     static func setup() {
-        LoseGameLogo.shared = UIImageView(frame: CGRect(x: fieldWidth / 2 - fieldHeight / 4,
+        LoseGameLogo.imageView = UIImageView(frame: CGRect(x: fieldWidth / 2 - fieldHeight / 4,
                                                     y: fieldHeight / 2 - fieldHeight / 4,
                                                     width: fieldHeight / 2,
                                                     height: fieldHeight / 2))
-        LoseGameLogo.shared?.alpha = 0.0
-        LoseGameLogo.shared?.image = UIImage(named: "wasted2")
+        LoseGameLogo.imageView?.alpha = 0.0
+        LoseGameLogo.imageView?.image = UIImage(named: "wasted2")
     }
 
     static func remove() {
-        LoseGameLogo.shared?.removeFromSuperview()
-        LoseGameLogo.shared = nil
+        LoseGameLogo.imageView?.removeFromSuperview()
+        LoseGameLogo.imageView = nil
     }
 
 }

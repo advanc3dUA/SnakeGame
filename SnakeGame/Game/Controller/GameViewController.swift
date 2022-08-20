@@ -76,27 +76,27 @@ class GameViewController: UIViewController {
     
     //MARK:- buttons action
     @IBAction func moveRightButton(_ sender: UIButton) {
-        guard gameStatus == .running else { return }
+        guard Game.status == .started else { return }
         if snake.body[0].direction == .up || snake.body[0].direction == .down {
             movingButtonAction(sender)
         }
     }
 
     @IBAction func moveLeftButton(_ sender: UIButton) {
-        guard gameStatus == .running else { return }
+        guard Game.status == .started else { return }
         if snake.body[0].direction == .up || snake.body[0].direction == .down {
             movingButtonAction(sender)
         }
     }
     @IBAction func moveUpButton(_ sender: UIButton) {
-        guard gameStatus == .running else { return }
+        guard Game.status == .started else { return }
         if snake.body[0].direction == .left || snake.body[0].direction == .right {
             movingButtonAction(sender)
         }
     }
     
     @IBAction func moveDownButton(_ sender: UIButton) {
-        guard gameStatus == .running else { return }
+        guard Game.status == .started else { return }
         if snake.body[0].direction == .left || snake.body[0].direction == .right {
             movingButtonAction(sender)
         }
@@ -170,7 +170,7 @@ class GameViewController: UIViewController {
         scoreLabel.text = "Score: 0"
         levelLabel.text = "Level: 1"
         LoseGameLogo.remove()
-        snake.setupNewGame()
+        Game.setupNewGame()
         snakeView.removeAll()
         createSnake()
         createNewPieceOfSnakeView()
@@ -182,14 +182,14 @@ class GameViewController: UIViewController {
     
     private func finishGame() {
         LoseGameLogo.setup()
-        Field.shared.addSubview(LoseGameLogo.shared ?? UIImageView())
+        Field.shared.addSubview(LoseGameLogo.imageView ?? UIImageView())
         UIView.animate(withDuration: 1.5) {
-            LoseGameLogo.shared?.alpha = 1.0
+            LoseGameLogo.imageView?.alpha = 1.0
         }
         cancelTimer()
-        gameStatus = .lost
+        Game.status = .lost
         if speedUpBool {
-            if snake.saveRecord() {
+            if Record.saveRecord() {
                 createAlert()
             }
         }
