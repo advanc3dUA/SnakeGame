@@ -25,8 +25,7 @@ class GameViewController: UIViewController {
     lazy var timerTimeInterval = timerTimeIntervalConst
     lazy var moveSnakeDuration = moveSnakeDurationConst
     
-    let generator = UISelectionFeedbackGenerator()
-    let pickUpGenerator = UIImpactFeedbackGenerator(style: .heavy)
+    let generator = Feedback()
     
     var alert = UIAlertController()
     
@@ -86,7 +85,7 @@ class GameViewController: UIViewController {
     }
     
     private func movingButtonAction(_ sender: UIButton) {
-        addFeedbackForMovingButtons()
+        generator.feedbackForMoveButton()
         cancelTimer()
         setupTimerForMoving(sender)
     }
@@ -120,13 +119,13 @@ class GameViewController: UIViewController {
     }
     
     //MARK:- vibrating on click & pick
-    func addFeedbackForMovingButtons() {
-        generator.selectionChanged()
-    }
-    
-    func addFeedbackForPickUp() {
-        pickUpGenerator.impactOccurred()
-    }
+//    func addFeedbackForMovingButtons() {
+//        generator.selectionChanged()
+//    }
+//    
+//    func addFeedbackForPickUp() {
+//        pickUpGenerator.impactOccurred()
+//    }
     
     private func setupMovingButtons() {
         for button in moveButtons {
@@ -212,7 +211,7 @@ class GameViewController: UIViewController {
     }
     
     private func pickupNewPiece(_ newPieceView: UIView) {
-        addFeedbackForPickUp()
+        generator.feedbackForPickUp()
         scoreLabel.text = "Score: " + String(score)
         UIView.animate(withDuration: 1) { [unowned self] in
             if classicModeBool {

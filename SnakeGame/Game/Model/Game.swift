@@ -12,10 +12,10 @@ class Game {
         didSet {
             if oldValue == .lost {
                 print("status changed to started")
-                postLostGameNotification()
+                postGameStartedNotification()
             } else {
                 print("status changed to lost")
-                //TODO:- add lost notification
+                postGameLostNotification()
             }
         }
     }
@@ -64,14 +64,21 @@ class Game {
         return false
     }
     
-    static private func postLostGameNotification() {
-        NotificationCenter.default.post(name: .lostGame, object: nil)
+    static private func postGameStartedNotification() {
+        NotificationCenter.default.post(name: .gameStarted, object: nil)
     }
     
+    static private func postGameLostNotification() {
+        NotificationCenter.default.post(name: .gameLost, object: nil)
+    }
 }
 
 extension NSNotification.Name {
-    static var lostGame: Notification.Name {
-        return .init("lostGame")
+    static var gameStarted: Notification.Name {
+        return .init("gameStarted")
+    }
+    
+    static var gameLost: Notification.Name {
+        return NSNotification.Name.init("gameLost")
     }
 }
