@@ -1,30 +1,25 @@
-////
-////  SnakeImages.swift
-////  SnakeGame
-////
-////  Created by advanc3d on 20.08.2022.
-////
 //
-//import Foundation
-//import UIKit
+//  SnakeImages.swift
+//  SnakeGame
 //
-//struct SnakeImages {
-//    enum imageName: String {
-//        case head_down = "head_down"
-//    case head_up = "head_up"
-//    case head_left = "head_left"
-//    case head_right = "head_right"
-//    case body_horizontal = "body_horizontal"
-//    case body_vertical = "body_vertical"
-//    case tail_down = "tail_down"
-//    case tail_up = "tail_up"
-//    case tail_left = "tail_left"
-//    case tail_right = "tail_right"
-//    case apple = "apple"
-//    }
-//    
-//    static var image: UIImage {
-//        switch 
-//        //        UIImage(named: imageName.RawValue)
-//    }
-//}
+//  Created by advanc3d on 20.08.2022.
+//
+
+import Foundation
+import UIKit
+
+struct ImagesDict {
+    static let shared: [String : UIImage] = [
+                                            "head_down": UIImage(named: "head_down")!,
+                                            "head_up": UIImage(named: "head_up")!,
+                                            "head_left": UIImage(named: "head_left")!,
+                                            "head_right": UIImage(named: "head_right")!,
+                                            "body_horizontal": UIImage(named: "body_horizontal")!,
+                                            "body_vertical": UIImage(named: "body_vertical")!,
+                                            "tail_down": UIImage(named: "tail_down")!,
+                                            "tail_up": UIImage(named: "tail_up")!,
+                                            "tail_left": UIImage(named: "tail_left")!,
+                                            "tail_right": UIImage(named: "tail_right")!,
+                                            "apple": UIImage(named: "apple")!
+    ]
+}
