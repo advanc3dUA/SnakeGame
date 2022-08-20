@@ -8,7 +8,17 @@
 import Foundation
 
 class Game {
-    static var status: GameStatus = .lost
+    static var status: GameStatus = .lost {
+        didSet {
+            if oldValue == .lost {
+                print("status changed to started")
+                postLostGameNotification()
+            } else {
+                print("status changed to lost")
+                //TODO:- add lost notification
+            }
+        }
+    }
     static var shared = Game()
     
     private init() { }
@@ -54,4 +64,14 @@ class Game {
         return false
     }
     
+    static private func postLostGameNotification() {
+        NotificationCenter.default.post(name: .lostGame, object: nil)
+    }
+    
+}
+
+extension NSNotification.Name {
+    static var lostGame: Notification.Name {
+        return .init("lostGame")
+    }
 }
