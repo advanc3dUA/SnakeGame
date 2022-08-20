@@ -16,8 +16,6 @@ class GameViewController: UIViewController {
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
     
-    var snakeView: [UIImageView] = []
-    
     var newPieceView = UIImageView()
     
     var timer: Timer?
@@ -156,8 +154,8 @@ class GameViewController: UIViewController {
         levelLabel.text = "Level: 1"
         LoseGameLogo.remove()
         Game.setupNewGame()
-        snakeView.removeAll()
-        createSnake()
+        SnakeView.shared.removeAll()
+        SnakeView.createSnake()
         createNewPieceOfSnakeView()
         setupMovingButtons()
         pauseButton.alpha = 1.0
@@ -186,36 +184,19 @@ class GameViewController: UIViewController {
         }
         newPieceView.removeFromSuperview()
 
-        for view in snakeView {
+        for view in SnakeView.shared {
             view.removeFromSuperview()
         }
-        snakeView.removeAll()
+        SnakeView.shared.removeAll()
     }
     
     private func goingNextLevel() {
         level += 1
         levelLabel.text = "Level: " + String(level)
         levelLabel.flash(numberOfFlashes: 4)
-        for view in snakeView {
+        for view in SnakeView.shared {
             view.flash(numberOfFlashes: 3)
         }
-    }
-    
-    //MARK:- snake methods
-    private func createSnake() {
-        snake.createSnake()
-
-        let snakeHeadView = UIImageView(frame: CGRect(x: Field.shared.bounds.minX + CGFloat(PieceOfSnake.width),
-                                                      y: Field.shared.bounds.minY + CGFloat(PieceOfSnake.height),
-                                                      width: CGFloat(PieceOfSnake.width),
-                                                      height: CGFloat(PieceOfSnake.height)))
-        if classicModeBool {
-            snakeHeadView.backgroundColor = .black
-        } else {
-            snakeHeadView.image = ImagesDict.shared["head_right"]
-        }
-        Field.shared.addSubview(snakeHeadView)
-        snakeView.append(snakeHeadView)
     }
     
     //MARK:- new piece methods
@@ -238,14 +219,14 @@ class GameViewController: UIViewController {
                 newPieceView.backgroundColor = .red
             }
             newPieceView.alpha = 0.1
-            snakeView.append(UIImageView(frame: CGRect(x: newPieceView.center.x - CGFloat(PieceOfSnake.width / 2),
+            SnakeView.shared.append(UIImageView(frame: CGRect(x: newPieceView.center.x - CGFloat(PieceOfSnake.width / 2),
                                                             y: newPieceView.center.y - CGFloat(PieceOfSnake.height / 2),
                                                             width: CGFloat(PieceOfSnake.width),
                                                             height: CGFloat(PieceOfSnake.height))))
             if classicModeBool {
-                snakeView.last?.backgroundColor = .yellow
+                SnakeView.shared.last?.backgroundColor = .yellow
             }
-            Field.shared.addSubview(snakeView.last!)
+            Field.shared.addSubview(SnakeView.shared.last!)
             
             if score % 10 == 0 && speedUpBool {
                 speedUp()
@@ -314,17 +295,17 @@ class GameViewController: UIViewController {
     }
     
     private func moveSnake(_ dX: Int, _ dY: Int) {
-        UIView.animate(withDuration: moveSnakeDuration) { [unowned self] in
+        UIView.animate(withDuration: moveSnakeDuration) {
 
             snake.saveLastPositions()
             snake.moveSnake(dX, dY)
             snake.body[0].direction = snake.checkDirection()
 
-            snakeView[0].center.x += CGFloat(dX)
-            snakeView[0].center.y += CGFloat(dY)
+            SnakeView.shared[0].center.x += CGFloat(dX)
+            SnakeView.shared[0].center.y += CGFloat(dY)
 
             for index in 1..<snake.body.count {
-                snakeView[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
+                SnakeView.shared[index].frame = CGRect(x: snake.body[index - 1].lastX ?? 0,
                                                      y: snake.body[index - 1].lastY ?? 0,
                                                      width: PieceOfSnake.width,
                                                      height: PieceOfSnake.height)
@@ -359,7 +340,7 @@ class GameViewController: UIViewController {
     
     fileprivate func rotateTale() {
         guard snake.body.count > 1 else { return }
-        guard let taleIndex = snakeView.lastIndex(of: snakeView.last!) else { return }
+        guard let taleIndex = SnakeView.shared.lastIndex(of: SnakeView.shared.last!) else { return }
         guard let taleDirection = snake.body[taleIndex].direction else { return }
         switch taleDirection {
         case .left: transition(indexOfImageView: taleIndex, to: "tail_right")
@@ -370,10 +351,10 @@ class GameViewController: UIViewController {
     }
     
     fileprivate func transition(indexOfImageView: Int, to imageName: String) {
-        UIView.transition(with: snakeView[indexOfImageView],
+        UIView.transition(with: SnakeView.shared[indexOfImageView],
                           duration: 0.1,
                           options: [.beginFromCurrentState, .curveEaseOut]) {
-            self.snakeView[indexOfImageView].image = ImagesDict.shared[imageName]
+            SnakeView.shared[indexOfImageView].image = ImagesDict.shared[imageName]
         }
     }
 }
