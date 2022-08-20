@@ -13,18 +13,14 @@ class Snake {
     //MARK:- game methods    
     func createSnake() {
         let snakeHead = PieceOfSnake(x: PieceOfSnake.width, y: PieceOfSnake.height)
-        snake.addNewPiece(snakeHead)
+        self.body.append(snakeHead)
     }
     
-    func eraseBody() {
+    func eraseSnake() {
         self.body.removeAll()
     }
         
     //MARK:- add or pickup new piece methods
-    func addNewPiece(_ newPiece: PieceOfSnake) {
-        self.body.append(newPiece)
-    }
-    
     func pickUpNewPiece(_ newPiece: PieceOfSnake) -> Bool {
         if body[0].x == newPiece.x && body[0].y == newPiece.y {
             body.append(newPiece)
@@ -59,33 +55,5 @@ class Snake {
             if (head.y - lastY) > 0 { return .down }
         }
         return .up
-    }
-    //MARK:- lose game conditions
-    func touchedBorders() -> Bool {
-        let head = self.body[0]
-        
-        if head.x < 20 && snake.body[0].direction == .left {
-            return true
-        }
-        if head.x > fieldWidth - 2 * PieceOfSnake.width && snake.body[0].direction == .right {
-            return true
-        }
-        if head.y < 20 && snake.body[0].direction == .up {
-            return true
-        }
-        if head.y > fieldHeight - 2 * PieceOfSnake.height && snake.body[0].direction == .down {
-            return true
-        }
-        return false
-    }
-    
-    func tailIsTouched() -> Bool {
-        guard body.count > 1 else { return false }
-        for index in stride(from: 1, to: body.count, by: 1) {
-            if body[0].x == body[index].x && body[0].y == body[index].y {
-                return true
-            }
-        }
-        return false
     }
 }

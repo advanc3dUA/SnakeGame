@@ -70,7 +70,7 @@ class GameViewController: UIViewController {
         
         if self.isMovingFromParent {
             finishGame()
-            snake.eraseBody()
+            snake.eraseSnake()
         }
     }
     
@@ -111,7 +111,7 @@ class GameViewController: UIViewController {
     @IBAction func restartButton(_ sender: UIButton) {
         LoseGameLogo.remove()
         finishGame()
-        snake.eraseBody()
+        snake.eraseSnake()
         setupNewGame()
         setupTimerForMoving(nil)
     }
@@ -306,7 +306,7 @@ class GameViewController: UIViewController {
                 rotateTale()
             }
             
-            if snake.touchedBorders() || snake.tailIsTouched() {
+            if Game.touchedBorders() || Game.tailIsTouched() {
                 finishGame()
             }
             
@@ -363,12 +363,11 @@ class GameViewController: UIViewController {
         guard snake.body.count > 2 else { return }
         for index in 1...snake.body.endIndex - 2 {
             guard let bodyPartDirection = snake.body[index].direction else { return }
-            guard let previousPartDirection = snake.body[index - 1].direction else { return }
-            switch (bodyPartDirection, previousPartDirection) {
-            case (.left, _): transition(indexOfImageView: index, to: "body_horizontal")
-            case (.right, _): transition(indexOfImageView: index, to: "body_horizontal")
-            case (.up, _): transition(indexOfImageView: index, to: "body_vertical")
-            case (.down, _): transition(indexOfImageView: index, to: "body_vertical")
+            switch (bodyPartDirection) {
+            case .left: transition(indexOfImageView: index, to: "body_horizontal")
+            case .right: transition(indexOfImageView: index, to: "body_horizontal")
+            case .up: transition(indexOfImageView: index, to: "body_vertical")
+            case .down: transition(indexOfImageView: index, to: "body_vertical")
             }
         }
     }
